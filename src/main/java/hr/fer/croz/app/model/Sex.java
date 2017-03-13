@@ -1,28 +1,32 @@
 package hr.fer.croz.app.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Sex {
 
-	private static long ID_CNT = 0;
-	private final static int name_constraint = 7;
-
-	private long id;
 	private String name;
+	private Map<Long, String> genders;
 
-	public Sex(String name) {
-		super();
-		ID_CNT++;
-		this.id = ID_CNT;
-		this.name = name;
+	private static Sex instance = null;
+
+	protected Sex() {
+		this.genders = new HashMap<Long, String>();
+		genders.put((long) 1, "Male");
+		genders.put((long) 2, "Female");
 	}
 
-	public long getId() {
-		return id;
+	public static Sex getInstance() {
+		if (instance == null) {
+			instance = new Sex();
+		}
+		return instance;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public Map<Long, String> getGenders() {
+		return genders;
 	}
-
+	
 	public String getName() {
 		return name;
 	}
@@ -30,5 +34,4 @@ public class Sex {
 	public void setName(String name) {
 		this.name = name;
 	}
-
 }

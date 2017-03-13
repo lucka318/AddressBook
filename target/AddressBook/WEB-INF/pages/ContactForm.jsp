@@ -30,11 +30,6 @@
 				<td><form:errors path="email"/></td>
 			</tr>
 			<tr>
-				<td>Address:</td>
-				<td><form:input path="address" /></td>
-				<td><form:errors path="address"/></td>
-			</tr>
-			<tr>
 				<td>Telephone:</td>
 				<td><form:input path="phone" /></td>
 				<td><form:errors path="phone"/></td>

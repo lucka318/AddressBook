@@ -1,8 +1,10 @@
 package hr.fer.croz.app.model;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-
 
 public class Contact {
 
@@ -13,30 +15,39 @@ public class Contact {
 	private final static int email_constraint = 50;
 
 	private long id;
+
 	@NotEmpty(message = "Please provide a first name.")
+	@Size(max = firstName_constraint, message = "Name cannot be longer than "
+			+ firstName_constraint + " characters.")
 	private String firstName;
+
 	@NotEmpty(message = "Please provide a last name.")
+	@Size(max = lastName_constraint, message = "Name cannot be longer than "
+			+ lastName_constraint + " characters.")
 	private String lastName;
+
 	@NotEmpty(message = "Please provide a phone number.")
+	@Size(max = phone_constraint, message = "Phone cannot be longer than "
+			+ phone_constraint + " characters.")
+	@Pattern(regexp = " ^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", message = "Not a valid phone number.")
 	private String phone;
+
 	@NotEmpty(message = "Please enter email addresss.")
+	@Size(max = email_constraint, message = "Phone cannot be longer than "
+			+ email_constraint + " characters.")
 	@Email
 	private String email;
-	@NotEmpty(message = "Please enter addresss.")
-	private String address;
-	@NotEmpty(message = "Please provide gender.")
-	private String sex;
 
-	// private long sexId;
-	// private Sex sex;
-	// private long addressId;
-	// private Address address;
+	private long address_id;
+	private Address address;
+	private long sex_id;
+	private String sex;
 
 	public Contact() {
 	}
 
 	public Contact(String firstName, String lastName, String phone,
-			String email, String address, String sex) {
+			String email, Address address, long sex_id) {
 		super();
 		ID_CNT++;
 		this.id = ID_CNT;
@@ -45,18 +56,9 @@ public class Contact {
 		this.phone = phone;
 		this.email = email;
 		this.address = address;
-		this.sex = sex;
-		// this.sexId = sexId;
-		// this.sex = sex;
+		this.sex_id = sex_id;
+		this.address_id = address.getId();
 	}
-
-	/*
-	 * public Contact(String firstName, String lastName, String phone, String
-	 * email, long sexId, Sex sex, long addressId, Address address) { super();
-	 * ID_CNT++; this.id = ID_CNT; this.firstName = firstName; this.lastName =
-	 * lastName; this.phone = phone; this.email = email; this.sexId = sexId;
-	 * this.sex = sex; this.addressId = addressId; this.address = address; }
-	 */
 
 	public long getId() {
 		return id;
@@ -103,12 +105,36 @@ public class Contact {
 		this.email = email;
 	}
 
-	public String getAddress() {
+	public Address getAddress() {
 		return address;
 	}
 
-	public void setAddress(String address) {
+	public void setAddress(Address address) {
 		this.address = address;
+	}
+
+	public static long getID_CNT() {
+		return ID_CNT;
+	}
+
+	public static void setID_CNT(long iD_CNT) {
+		ID_CNT = iD_CNT;
+	}
+
+	public long getAddress_id() {
+		return address_id;
+	}
+
+	public void setAddress_id(long address_id) {
+		this.address_id = address_id;
+	}
+
+	public long getSex_id() {
+		return sex_id;
+	}
+
+	public void setSex_id(long sex_id) {
+		this.sex_id = sex_id;
 	}
 
 	public String getSex() {
@@ -118,31 +144,5 @@ public class Contact {
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
-	
-	public static long getID_CNT() {
-		return ID_CNT;
-	}
-
-	public static void setID_CNT(long iD_CNT) {
-		ID_CNT = iD_CNT;
-	}
-
-	/*
-	 * public long getSexId() { return sexId; }
-	 * 
-	 * public void setSexId(long sexId) { this.sexId = sexId; }
-	 * 
-	 * public Sex getSex() { return sex; }
-	 * 
-	 * public void setSex(Sex sex) { this.sex = sex; }
-	 * 
-	 * public long getAddressId() { return addressId; }
-	 * 
-	 * public void setAddressId(long addressId) { this.addressId = addressId; }
-	 * 
-	 * public Address getAddress() { return address; }
-	 * 
-	 * public void setAddress(Address address) { this.address = address; }
-	 */
 
 }
