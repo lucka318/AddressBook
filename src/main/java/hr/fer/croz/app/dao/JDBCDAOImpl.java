@@ -167,13 +167,43 @@ public class JDBCDAOImpl implements DAO {
 	}
 
 	public List<City> getCities() {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "SELECT * FROM city";
+		List<City> cities = jdbcTemplate.query(sql, new RowMapper<City>() {
+
+			public City mapRow(ResultSet rs, int rowNum) throws SQLException {
+				City city = new City();
+				city.setId(rs.getLong("id"));
+				city.setName(rs.getString("name"));
+				city.setZipcode(rs.getString("zip_code"));
+				long country_id = rs.getLong("country_id");
+				city.setCountry_id(country_id);
+				city.setCountry(getCountry(country_id));
+				return city;
+			}
+
+		});
+
+		return cities;
 	}
 
 	public List<Country> getCountries() {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "SELECT * FROM country";
+		List<Country> countries = jdbcTemplate.query(sql,
+				new RowMapper<Country>() {
+
+					public Country mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						Country country = new Country();
+						country.setId(rs.getLong("id"));
+						country.setName(rs.getString("name"));
+						country.setAlpha_2(rs.getString("alpha_2"));
+						country.setAlpha_3(rs.getString("alpha_3"));
+						return country;
+					}
+
+				});
+
+		return countries;
 	}
 
 	public void createTuple(Address address) {
