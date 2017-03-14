@@ -10,7 +10,7 @@
 </head>
 <body>
 	<div align="center">
-		<h1>New/Edit Address</h1>
+		<h1>New/Edit Country</h1>
 		<form:form action="saveCountry" method="post" modelAttribute="country">
 		<table>
 			<form:hidden path="id"/>

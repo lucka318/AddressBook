@@ -62,7 +62,9 @@ public class HomeController {
 		if (result.hasErrors()) {
 			model = new ModelAndView("ContactForm", result.getModel());
 		} else {
-			this.contact = contact;
+			if (contact == null) { // new contact save
+				this.contact = contact;
+			}
 			Sex sex = Sex.getInstance();
 			model = new ModelAndView("GenderForm", "sex", sex);
 		}
@@ -77,8 +79,13 @@ public class HomeController {
 			model = new ModelAndView("GenderForm", result.getModel());
 		} else {
 			this.sex = sex;
-			Address address = new Address();
-			model = new ModelAndView("AddressForm", "address", address);
+			if (contact.getAddress() == null) {
+				Address address = new Address();
+				model = new ModelAndView("AddressForm", "address", address);
+			} else {
+				this.address = contact.getAddress();
+				model = new ModelAndView("AddressForm", "address", this.address);
+			}
 		}
 		return model;
 	}
@@ -90,9 +97,14 @@ public class HomeController {
 		if (result.hasErrors()) {
 			model = new ModelAndView("AddressForm", result.getModel());
 		} else {
-			this.address = address;
-			City city = new City();
-			model = new ModelAndView("CityForm", "city", city);
+			if (this.address == null) {
+				this.address = address;
+				City city = new City();
+				model = new ModelAndView("CityForm", "city", city);
+			} else {
+				this.city = this.address.getCity();
+				model = new ModelAndView("CityForm", "city", this.city);
+			}
 		}
 		return model;
 	}
@@ -104,9 +116,14 @@ public class HomeController {
 		if (result.hasErrors()) {
 			model = new ModelAndView("CityForm", result.getModel());
 		} else {
-			this.city = city;
-			Country country = new Country();
-			model = new ModelAndView("CountryForm", "country", country);
+			if (this.city == null) { // new city
+				this.city = city;
+				Country country = new Country();
+				model = new ModelAndView("CountryForm", "country", country);
+			} else {
+				this.country = this.city.getCountry();
+				model = new ModelAndView("CountryForm", "country", this.country);
+			}
 		}
 		return model;
 	}
@@ -136,6 +153,7 @@ public class HomeController {
 	public ModelAndView editContact(HttpServletRequest request) {
 		long contactId = Long.parseLong(request.getParameter("id"));
 		Contact contact = contactDAO.getContact(contactId);
+		this.contact = contact;
 		ModelAndView model = new ModelAndView("ContactForm");
 		model.addObject("contact", contact);
 
@@ -146,6 +164,7 @@ public class HomeController {
 	public ModelAndView editCity(HttpServletRequest request) {
 		long cityId = Long.parseLong(request.getParameter("id"));
 		City city = contactDAO.getCity(cityId);
+		this.city = city;
 		ModelAndView model = new ModelAndView("CityForm");
 		model.addObject("city", city);
 
@@ -156,6 +175,7 @@ public class HomeController {
 	public ModelAndView editCountry(HttpServletRequest request) {
 		long countryId = Long.parseLong(request.getParameter("id"));
 		Country country = contactDAO.getCountry(countryId);
+		this.country = country;
 		ModelAndView model = new ModelAndView("CountryForm");
 		model.addObject("country", country);
 
@@ -180,8 +200,8 @@ public class HomeController {
 
 	@RequestMapping(value = "/deleteCity", method = RequestMethod.GET)
 	public ModelAndView deleteCity(HttpServletRequest request, ModelMap map) {
-		long citytId = Long.parseLong(request.getParameter("id"));
-		int status = contactDAO.deleteCity(citytId);
+		long cityId = Long.parseLong(request.getParameter("id"));
+		int status = contactDAO.deleteCity(cityId);
 		if (status == 1) {
 			map.addAttribute(
 					"errMsg",
@@ -194,7 +214,7 @@ public class HomeController {
 	@RequestMapping(value = "/deleteCountry", method = RequestMethod.GET)
 	public ModelAndView deleteCountry(HttpServletRequest request, ModelMap map) {
 		long countryId = Long.parseLong(request.getParameter("id"));
-		int status = contactDAO.deleteCity(countryId);
+		int status = contactDAO.deleteCountry(countryId);
 		if (status == 1) {
 			map.addAttribute(
 					"errMsg",
@@ -212,23 +232,26 @@ public class HomeController {
 
 		if (country != null) {
 			contactDAO.createTuple(country);
-			city.setCountry_id(country.getId());
-			city.setCountry(country);
 		}
 		if (city != null) {
+			city.setCountry_id(country.getId());
+			city.setCountry(country);
 			contactDAO.createTuple(city);
-			address.setCity(city);
-			address.setCity_id(city.getId());
 		}
 		if (address != null) {
+			address.setCity(city);
+			address.setCity_id(city.getId());
 			contactDAO.createTuple(address);
-			contact.setAddress_id(address.getId());
-			contact.setAddress(address);
 		}
 		if (contact != null) {
 			String name = sex.getName();
 			contact.setSex(name);
 			contact.setSex_id(sex.getGenderID(name));
+
+			contact.setAddress_id(address.getId());
+			contact.setAddress(address);
+
+			contactDAO.createTuple(contact);
 		}
 
 	}

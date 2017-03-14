@@ -4,6 +4,7 @@ import hr.fer.croz.app.model.Address;
 import hr.fer.croz.app.model.City;
 import hr.fer.croz.app.model.Contact;
 import hr.fer.croz.app.model.Country;
+import hr.fer.croz.app.model.Sex;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -43,6 +44,7 @@ public class JDBCDAOImpl implements DAO {
 					contact.setEmail(rs.getString("email"));
 					long sex_id = rs.getLong("sex_id");
 					contact.setSex_id(sex_id);
+					contact.setSex(Sex.getInstance().getGenderName(sex_id));
 					long address_id = rs.getLong("address_id");
 					contact.setAddress_id(address_id);
 					contact.setSex(getSex(sex_id));
@@ -66,7 +68,7 @@ public class JDBCDAOImpl implements DAO {
 					Address address = new Address();
 					address.setId(rs.getLong("id"));
 					address.setStreetName(rs.getString("street"));
-					address.setStreetNo(rs.getString("streetNo"));
+					address.setStreetNo(rs.getString("street_no"));
 					long city_id = rs.getLong("city_id");
 					address.setCity_id(city_id);
 					address.setCity(getCity(city_id));
@@ -221,6 +223,7 @@ public class JDBCDAOImpl implements DAO {
 						contact.setEmail(rs.getString("email"));
 						long sex_id = rs.getLong("sex_id");
 						contact.setSex_id(sex_id);
+						contact.setSex(Sex.getInstance().getGenderName(sex_id));
 						long address_id = rs.getLong("address_id");
 						contact.setAddress_id(address_id);
 						contact.setSex(getSex(sex_id));
@@ -292,6 +295,8 @@ public class JDBCDAOImpl implements DAO {
 				jdbcTemplate.update(sql, address.getId(),
 						address.getStreetName(), address.getStreetNo(),
 						address.getCity_id());
+			} else {
+				address.setId(checkAddress.getId());
 			}
 		}
 	}
@@ -377,7 +382,7 @@ public class JDBCDAOImpl implements DAO {
 							Address address = new Address();
 							address.setId(rs.getLong("id"));
 							address.setStreetName(rs.getString("street"));
-							address.setStreetNo(rs.getString("streetNo"));
+							address.setStreetNo(rs.getString("street_no"));
 							long city_id = rs.getLong("city_id");
 							address.setCity_id(city_id);
 							address.setCity(getCity(city_id));

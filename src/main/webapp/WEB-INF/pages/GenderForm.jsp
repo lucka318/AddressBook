@@ -14,8 +14,8 @@
 		<form:form action="saveSex" method="post" modelAttribute="sex">
 			<table>
 				<tr>
-					<td><form:radiobutton path="name" value="M" checked="checked" />Male <form:radiobutton
-							path="name" value="F" />Female</td>
+					<td><form:radiobutton path="name" value="Male" checked="checked" />Male <form:radiobutton
+							path="name" value="Female" />Female</td>
 				</tr>
 				<tr>
 					<td colspan="2" align="center"><input type="submit"

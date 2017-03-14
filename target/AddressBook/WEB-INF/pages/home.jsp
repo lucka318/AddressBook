@@ -21,6 +21,8 @@
 			<th>Address</th>
 			<th>Telephone</th>
 			<th>Email</th>
+			<th>City</th>
+			<th>Country</th>
 			<th>Sex</th>
 			<th>Action</th>
 
@@ -29,11 +31,11 @@
 					<td>${status.index + 1}</td>
 					<td>${contact.firstName}</td>
 					<td>${contact.lastName}</td>
+					<td>${contact.address.streetName}${contact.address.streetNo}</td>
 					<td>${contact.phone}</td>
 					<td>${contact.email}</td>
-					<td>${contact.address.streetName}${contact.address.streetNo}</td>
-					<td>${contact.city.name}</td>
-					<td>${contact.country.name}</td>
+					<td>${contact.address.city.name}</td>
+					<td>${contact.address.city.country.name}</td>
 					<td>${contact.sex}</td>
 					<td><a href="editContact?id=${contact.id}">Edit</a>
 						&nbsp;&nbsp;&nbsp;&nbsp; <a href="deleteContact?id=${contact.id}">Delete</a>
