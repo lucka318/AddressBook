@@ -48,27 +48,27 @@ public class Country {
 	}
 
 	public String getName() {
-		return name.toLowerCase();
+		return name;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.name = name.toLowerCase();
 	}
 
 	public String getAlpha_2() {
-		return alpha_2.toLowerCase();
+		return alpha_2;
 	}
 
 	public void setAlpha_2(String alpha_2) {
-		this.alpha_2 = alpha_2;
+		this.alpha_2 = alpha_2.toLowerCase();
 	}
 
 	public String getAlpha_3() {
-		return alpha_3.toLowerCase();
+		return alpha_3;
 	}
 
 	public void setAlpha_3(String aplha_3) {
-		this.alpha_3 = aplha_3;
+		this.alpha_3 = aplha_3.toLowerCase();
 	}
 
 	public static void setID_CNT(long iD_CNT) {

@@ -29,7 +29,7 @@ public class Contact {
 	@NotEmpty(message = "Please provide a phone number.")
 	@Size(max = phone_constraint, message = "Phone cannot be longer than "
 			+ phone_constraint + " characters.")
-	@Pattern(regexp = " ^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", message = "Not a valid phone number.")
+	@Pattern(regexp = "^[0-9, ]+$", message = "Not a valid phone number.")
 	private String phone;
 
 	@NotEmpty(message = "Please enter email addresss.")
@@ -74,19 +74,19 @@ public class Contact {
 	}
 
 	public String getFirstName() {
-		return firstName.toLowerCase();
+		return firstName;
 	}
 
 	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+		this.firstName = firstName.toLowerCase();
 	}
 
 	public String getLastName() {
-		return lastName.toLowerCase();
+		return lastName;
 	}
 
 	public void setLastName(String lastName) {
-		this.lastName = lastName;
+		this.lastName = lastName.toLowerCase();
 	}
 
 	public String getPhone() {
@@ -98,7 +98,7 @@ public class Contact {
 	}
 
 	public String getEmail() {
-		return email.toLowerCase();
+		return email;
 	}
 
 	public void setEmail(String email) {

@@ -119,7 +119,6 @@ public class HomeController {
 			model = new ModelAndView("CountryForm", result.getModel());
 		} else {
 			this.country = country;
-			// save in db everything
 			saveToDatabase();
 			model = new ModelAndView("redirect:/");
 		}

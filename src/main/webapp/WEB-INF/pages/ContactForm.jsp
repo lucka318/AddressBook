@@ -35,11 +35,6 @@
 				<td><form:errors path="phone"/></td>
 			</tr>
 			<tr>
-				<td>Sex:</td>
-				<td><form:input path="sex" /></td>
-				<td><form:errors path="sex"/></td>
-			</tr>
-			<tr>
 				<td colspan="2" align="center"><input type="submit" value="Save"></td>
 			</tr>
 		</table>

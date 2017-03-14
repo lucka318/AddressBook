@@ -39,16 +39,6 @@ public class City {
 		this.zipcode = zipcode;
 	}
 
-	public City(String name, String zipcode, long country_id, Country country) {
-		super();
-		ID_CNT++; // check overflow
-		this.id = ID_CNT;
-		this.name = name; // check not null, unique
-		this.zipcode = zipcode; // check not null, unique
-		// this.country_id = country_id; // check not null, unique
-		// this.country = country; // check not null, unique
-	}
-
 	public City() {
 	}
 
@@ -66,19 +56,19 @@ public class City {
 	}
 
 	public String getName() {
-		return name.toLowerCase();
+		return name;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.name = name.toLowerCase();
 	}
 
 	public String getZipcode() {
-		return zipcode.toLowerCase();
+		return zipcode;
 	}
 
 	public void setZipcode(String zipcode) {
-		this.zipcode = zipcode;
+		this.zipcode = zipcode.toLowerCase();
 	}
 
 	public long getCountry_id() {

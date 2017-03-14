@@ -26,12 +26,12 @@ public class Address {
 	private String streetName;
 
 	@NotEmpty
-	@NumberFormat
 	@Size(min = streetNo_constraint_min, max = streetNo_constraint_max, message = "Number has to be between "
 			+ streetNo_constraint_min
 			+ " and "
 			+ streetNo_constraint_max
 			+ " characters long")
+	@NumberFormat
 	private String streetNo;
 
 	private long city_id;
@@ -72,15 +72,15 @@ public class Address {
 	}
 
 	public String getStreetName() {
-		return streetName.toLowerCase();
+		return streetName;
 	}
 
 	public void setStreetName(String streetName) {
-		this.streetName = streetName;
+		this.streetName = streetName.toLowerCase();
 	}
 
 	public String getStreetNo() {
-		return streetNo.toLowerCase();
+		return streetNo;
 	}
 
 	public void setStreetNo(String streetNo) {

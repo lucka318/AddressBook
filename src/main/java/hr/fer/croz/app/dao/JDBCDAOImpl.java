@@ -124,8 +124,8 @@ public class JDBCDAOImpl implements DAO {
 	}
 
 	public Address getAddress(String name, String no) {
-		String sql = "SELECT * FROM address WHERE name=" + name + " AND no="
-				+ no;
+		String sql = "SELECT * FROM address WHERE street='" + name + "'"
+				+ " AND street_no='" + no + "'";
 		return jdbcTemplate.query(sql, new ResultSetExtractor<Address>() {
 
 			public Address extractData(ResultSet rs) throws SQLException,
@@ -134,7 +134,7 @@ public class JDBCDAOImpl implements DAO {
 					Address address = new Address();
 					address.setId(rs.getLong("id"));
 					address.setStreetName(rs.getString("street"));
-					address.setStreetNo(rs.getString("streetNo"));
+					address.setStreetNo(rs.getString("street_no"));
 					long city_id = rs.getLong("city_id");
 					address.setCity_id(city_id);
 					address.setCity(getCity(city_id));
@@ -148,8 +148,8 @@ public class JDBCDAOImpl implements DAO {
 	}
 
 	public City getCity(String name, String zipcode) {
-		String sql = "SELECT * FROM city WHERE name=" + name + " AND zipcode="
-				+ zipcode;
+		String sql = "SELECT * FROM city WHERE name='" + name + "'"
+				+ " AND zip_code='" + zipcode + "'";
 		return jdbcTemplate.query(sql, new ResultSetExtractor<City>() {
 
 			public City extractData(ResultSet rs) throws SQLException,
@@ -159,9 +159,7 @@ public class JDBCDAOImpl implements DAO {
 					city.setId(rs.getLong("id"));
 					city.setName(rs.getString("name"));
 					city.setZipcode(rs.getString("zip_code"));
-					long country_id = rs.getLong("country_id");
-					city.setCountry_id(country_id);
-					city.setCountry(getCountry(country_id));
+					city.setCountry_id(rs.getLong("country_id"));
 					return city;
 				}
 
@@ -172,7 +170,7 @@ public class JDBCDAOImpl implements DAO {
 	}
 
 	public Country getCountry(String name) {
-		String sql = "SELECT * FROM country WHERE name=" + name;
+		String sql = "SELECT * FROM country WHERE name='" + name + "'";
 		return jdbcTemplate.query(sql, new ResultSetExtractor<Country>() {
 
 			public Country extractData(ResultSet rs) throws SQLException,
@@ -290,7 +288,7 @@ public class JDBCDAOImpl implements DAO {
 			if (checkAddress == null) {
 				address.setId();
 				String sql = "INSERT INTO address (id, street, street_no, city_id)"
-						+ " VALUES (?, ?, ?, ?, ?, ?, ?)";
+						+ " VALUES (?, ?, ?, ?)";
 				jdbcTemplate.update(sql, address.getId(),
 						address.getStreetName(), address.getStreetNo(),
 						address.getCity_id());
@@ -332,9 +330,11 @@ public class JDBCDAOImpl implements DAO {
 			if (checkCity == null) {
 				city.setId();
 				String sql = "INSERT INTO city (id, name, zip_code, country_id)"
-						+ " VALUES (?, ?, ?, ?, ?, ?, ?)";
+						+ " VALUES (?, ?, ?, ?)";
 				jdbcTemplate.update(sql, city.getId(), city.getName(),
 						city.getZipcode(), city.getCountry_id());
+			} else {
+				city.setId(checkCity.getId());
 			}
 		}
 	}
@@ -352,9 +352,11 @@ public class JDBCDAOImpl implements DAO {
 			if (checkCountry == null) {
 				country.setId();
 				String sql = "INSERT INTO country (id, name, alpha_2, alpha_3)"
-						+ " VALUES (?, ?, ?, ?, ?, ?, ?)";
+						+ " VALUES (?, ?, ?, ?)";
 				jdbcTemplate.update(sql, country.getId(), country.getName(),
 						country.getAlpha_2(), country.getAlpha_3());
+			} else {
+				country.setId(checkCountry.getId());
 			}
 		}
 	}

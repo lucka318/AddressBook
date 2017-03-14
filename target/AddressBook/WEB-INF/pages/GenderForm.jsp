@@ -13,7 +13,6 @@
 		<h1>New/Edit Gender</h1>
 		<form:form action="saveSex" method="post" modelAttribute="sex">
 			<table>
-				<form:hidden path="id" />
 				<tr>
 					<td><form:radiobutton path="name" value="M" checked="checked" />Male <form:radiobutton
 							path="name" value="F" />Female</td>
