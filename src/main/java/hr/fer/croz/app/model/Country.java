@@ -41,14 +41,14 @@ public class Country {
 	public void setId(long id) {
 		this.id = id;
 	}
-	
+
 	public void setId() {
 		ID_CNT++;
 		this.id = ID_CNT;
 	}
 
 	public String getName() {
-		return name;
+		return name.toLowerCase();
 	}
 
 	public void setName(String name) {
@@ -56,7 +56,7 @@ public class Country {
 	}
 
 	public String getAlpha_2() {
-		return alpha_2;
+		return alpha_2.toLowerCase();
 	}
 
 	public void setAlpha_2(String alpha_2) {
@@ -64,13 +64,13 @@ public class Country {
 	}
 
 	public String getAlpha_3() {
-		return alpha_3;
+		return alpha_3.toLowerCase();
 	}
 
 	public void setAlpha_3(String aplha_3) {
 		this.alpha_3 = aplha_3;
 	}
-	
+
 	public static void setID_CNT(long iD_CNT) {
 		ID_CNT = iD_CNT;
 	}

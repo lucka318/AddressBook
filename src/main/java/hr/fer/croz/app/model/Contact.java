@@ -74,7 +74,7 @@ public class Contact {
 	}
 
 	public String getFirstName() {
-		return firstName;
+		return firstName.toLowerCase();
 	}
 
 	public void setFirstName(String firstName) {
@@ -82,7 +82,7 @@ public class Contact {
 	}
 
 	public String getLastName() {
-		return lastName;
+		return lastName.toLowerCase();
 	}
 
 	public void setLastName(String lastName) {
@@ -98,7 +98,7 @@ public class Contact {
 	}
 
 	public String getEmail() {
-		return email;
+		return email.toLowerCase();
 	}
 
 	public void setEmail(String email) {

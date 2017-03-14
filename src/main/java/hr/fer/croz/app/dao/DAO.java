@@ -2,6 +2,7 @@ package hr.fer.croz.app.dao;
 
 import java.util.List;
 
+import hr.fer.croz.app.model.Address;
 import hr.fer.croz.app.model.City;
 import hr.fer.croz.app.model.Contact;
 import hr.fer.croz.app.model.Country;
@@ -28,10 +29,10 @@ public interface DAO {
 
 	public int deleteCountry(Long id);
 
-	public int updateContact(Long id, Contact contact);
+	public void createTuple(Address address);
 
-	public int updateCity(Long id, City city);
+	public City getCity(long cityId);
 
-	public int updateCountry(Long id, Country country);
+	public Country getCountry(long countryId);
 
 }

@@ -6,14 +6,14 @@ import java.util.Map;
 public class Sex {
 
 	private String name;
-	private Map<Long, String> genders;
+	private Map<String, Long> genders;
 
 	private static Sex instance = null;
 
 	protected Sex() {
-		this.genders = new HashMap<Long, String>();
-		genders.put((long) 1, "Male");
-		genders.put((long) 2, "Female");
+		this.genders = new HashMap<String, Long>();
+		genders.put("Male", (long) 1);
+		genders.put("Female", (long) 2);
 	}
 
 	public static Sex getInstance() {
@@ -23,8 +23,8 @@ public class Sex {
 		return instance;
 	}
 
-	public Map<Long, String> getGenders() {
-		return genders;
+	public Long getGenderID(String name) {
+		return genders.get(name);
 	}
 	
 	public String getName() {

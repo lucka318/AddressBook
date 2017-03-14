@@ -65,14 +65,14 @@ public class Address {
 	public void setId(long id) {
 		this.id = id;
 	}
-	
+
 	public void setId() {
 		ID_CNT++;
 		this.id = ID_CNT;
 	}
 
 	public String getStreetName() {
-		return streetName;
+		return streetName.toLowerCase();
 	}
 
 	public void setStreetName(String streetName) {
@@ -80,7 +80,7 @@ public class Address {
 	}
 
 	public String getStreetNo() {
-		return streetNo;
+		return streetNo.toLowerCase();
 	}
 
 	public void setStreetNo(String streetNo) {
@@ -102,7 +102,7 @@ public class Address {
 	public void setCity(City city) {
 		this.city = city;
 	}
-	
+
 	public static void setID_CNT(long iD_CNT) {
 		ID_CNT = iD_CNT;
 	}

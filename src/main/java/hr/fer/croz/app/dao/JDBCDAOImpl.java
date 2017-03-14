@@ -79,7 +79,7 @@ public class JDBCDAOImpl implements DAO {
 		});
 	}
 
-	public City getCity(Long id) {
+	public City getCity(long id) {
 		String sql = "SELECT * FROM city WHERE id=" + id;
 		return jdbcTemplate.query(sql, new ResultSetExtractor<City>() {
 
@@ -102,8 +102,77 @@ public class JDBCDAOImpl implements DAO {
 		});
 	}
 
-	public Country getCountry(Long id) {
+	public Country getCountry(long id) {
 		String sql = "SELECT * FROM country WHERE id=" + id;
+		return jdbcTemplate.query(sql, new ResultSetExtractor<Country>() {
+
+			public Country extractData(ResultSet rs) throws SQLException,
+					DataAccessException {
+				if (rs.next()) {
+					Country country = new Country();
+					country.setId(rs.getLong("id"));
+					country.setName(rs.getString("name"));
+					country.setAlpha_2(rs.getString("alpha_2"));
+					country.setAlpha_3(rs.getString("alpha_3"));
+					return country;
+				}
+
+				return null;
+			}
+
+		});
+	}
+
+	public Address getAddress(String name, String no) {
+		String sql = "SELECT * FROM address WHERE name=" + name + " AND no="
+				+ no;
+		return jdbcTemplate.query(sql, new ResultSetExtractor<Address>() {
+
+			public Address extractData(ResultSet rs) throws SQLException,
+					DataAccessException {
+				if (rs.next()) {
+					Address address = new Address();
+					address.setId(rs.getLong("id"));
+					address.setStreetName(rs.getString("street"));
+					address.setStreetNo(rs.getString("streetNo"));
+					long city_id = rs.getLong("city_id");
+					address.setCity_id(city_id);
+					address.setCity(getCity(city_id));
+					return address;
+				}
+
+				return null;
+			}
+
+		});
+	}
+
+	public City getCity(String name, String zipcode) {
+		String sql = "SELECT * FROM city WHERE name=" + name + " AND zipcode="
+				+ zipcode;
+		return jdbcTemplate.query(sql, new ResultSetExtractor<City>() {
+
+			public City extractData(ResultSet rs) throws SQLException,
+					DataAccessException {
+				if (rs.next()) {
+					City city = new City();
+					city.setId(rs.getLong("id"));
+					city.setName(rs.getString("name"));
+					city.setZipcode(rs.getString("zip_code"));
+					long country_id = rs.getLong("country_id");
+					city.setCountry_id(country_id);
+					city.setCountry(getCountry(country_id));
+					return city;
+				}
+
+				return null;
+			}
+
+		});
+	}
+
+	public Country getCountry(String name) {
+		String sql = "SELECT * FROM country WHERE name=" + name;
 		return jdbcTemplate.query(sql, new ResultSetExtractor<Country>() {
 
 			public Country extractData(ResultSet rs) throws SQLException,
@@ -216,11 +285,16 @@ public class JDBCDAOImpl implements DAO {
 					address.getId());
 		} else {
 			// insert
-			address.setId();
-			String sql = "INSERT INTO address (id, street, street_no, city_id)"
-					+ " VALUES (?, ?, ?, ?, ?, ?, ?)";
-			jdbcTemplate.update(sql, address.getId(), address.getStreetName(),
-					address.getStreetNo(), address.getCity_id());
+			Address checkAddress = getAddress(address.getStreetName(),
+					address.getStreetNo());
+			if (checkAddress == null) {
+				address.setId();
+				String sql = "INSERT INTO address (id, street, street_no, city_id)"
+						+ " VALUES (?, ?, ?, ?, ?, ?, ?)";
+				jdbcTemplate.update(sql, address.getId(),
+						address.getStreetName(), address.getStreetNo(),
+						address.getCity_id());
+			}
 		}
 	}
 
@@ -254,11 +328,14 @@ public class JDBCDAOImpl implements DAO {
 					city.getCountry_id(), city.getId());
 		} else {
 			// insert
-			city.setId();
-			String sql = "INSERT INTO city (id, name, zip_code, country_id)"
-					+ " VALUES (?, ?, ?, ?, ?, ?, ?)";
-			jdbcTemplate.update(sql, city.getId(), city.getName(),
-					city.getZipcode(), city.getCountry_id());
+			City checkCity = getCity(city.getName(), city.getZipcode());
+			if (checkCity == null) {
+				city.setId();
+				String sql = "INSERT INTO city (id, name, zip_code, country_id)"
+						+ " VALUES (?, ?, ?, ?, ?, ?, ?)";
+				jdbcTemplate.update(sql, city.getId(), city.getName(),
+						city.getZipcode(), city.getCountry_id());
+			}
 		}
 	}
 
@@ -271,11 +348,14 @@ public class JDBCDAOImpl implements DAO {
 					country.getAlpha_3(), country.getId());
 		} else {
 			// insert
-			country.setId();
-			String sql = "INSERT INTO country (id, name, alpha_2, alpha_3)"
-					+ " VALUES (?, ?, ?, ?, ?, ?, ?)";
-			jdbcTemplate.update(sql, country.getId(), country.getName(),
-					country.getAlpha_2(), country.getAlpha_3());
+			Country checkCountry = getCountry(country.getName());
+			if (checkCountry == null) {
+				country.setId();
+				String sql = "INSERT INTO country (id, name, alpha_2, alpha_3)"
+						+ " VALUES (?, ?, ?, ?, ?, ?, ?)";
+				jdbcTemplate.update(sql, country.getId(), country.getName(),
+						country.getAlpha_2(), country.getAlpha_3());
+			}
 		}
 	}
 
@@ -285,28 +365,63 @@ public class JDBCDAOImpl implements DAO {
 	}
 
 	public int deleteCity(Long id) {
-		// TODO Auto-generated method stub
-		return 0;
+		String sql = "SELECT * FROM address WHERE city_id=" + id.longValue();
+		Address address = jdbcTemplate.query(sql,
+				new ResultSetExtractor<Address>() {
+
+					public Address extractData(ResultSet rs)
+							throws SQLException, DataAccessException {
+						if (rs.next()) {
+							Address address = new Address();
+							address.setId(rs.getLong("id"));
+							address.setStreetName(rs.getString("street"));
+							address.setStreetNo(rs.getString("streetNo"));
+							long city_id = rs.getLong("city_id");
+							address.setCity_id(city_id);
+							address.setCity(getCity(city_id));
+							return address;
+						}
+
+						return null;
+					}
+
+				});
+		if (address == null) {
+			sql = "DELETE FROM city WHERE id=?";
+			jdbcTemplate.update(sql, id);
+			return 0;
+		}
+		return 1;
 	}
 
 	public int deleteCountry(Long id) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+		String sql = "SELECT * FROM city WHERE id=" + id;
+		City city = jdbcTemplate.query(sql, new ResultSetExtractor<City>() {
 
-	public int updateContact(Long id, Contact contact) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+			public City extractData(ResultSet rs) throws SQLException,
+					DataAccessException {
+				if (rs.next()) {
+					City city = new City();
+					city.setId(rs.getLong("id"));
+					city.setName(rs.getString("name"));
+					city.setZipcode(rs.getString("zip_code"));
+					long country_id = rs.getLong("country_id");
+					city.setCountry_id(country_id);
+					city.setCountry(getCountry(country_id));
+					return city;
+				}
 
-	public int updateCity(Long id, City city) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+				return null;
+			}
 
-	public int updateCountry(Long id, Country country) {
-		// TODO Auto-generated method stub
-		return 0;
+		});
+
+		if (city == null) {
+			sql = "DELETE FROM country WHERE id=?";
+			jdbcTemplate.update(sql, id);
+			return 0;
+		}
+		return 1;
 	}
 
 	private void setContactID() {

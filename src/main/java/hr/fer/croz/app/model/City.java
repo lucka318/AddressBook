@@ -59,14 +59,14 @@ public class City {
 	public void setId(long id) {
 		this.id = id;
 	}
-	
+
 	public void setId() {
 		ID_CNT++;
 		this.id = ID_CNT;
 	}
 
 	public String getName() {
-		return name;
+		return name.toLowerCase();
 	}
 
 	public void setName(String name) {
@@ -74,7 +74,7 @@ public class City {
 	}
 
 	public String getZipcode() {
-		return zipcode;
+		return zipcode.toLowerCase();
 	}
 
 	public void setZipcode(String zipcode) {
@@ -96,7 +96,7 @@ public class City {
 	public void setCountry(Country country) {
 		this.country = country;
 	}
-	
+
 	public static void setID_CNT(long iD_CNT) {
 		ID_CNT = iD_CNT;
 	}

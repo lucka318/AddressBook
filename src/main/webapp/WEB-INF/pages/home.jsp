@@ -69,6 +69,8 @@
 			</c:forEach>
 		</table>
 	</div>
+	
+	<div>${errMsg}</div>
 
 	<div align="center">
 		<h1>Country List</h1>
@@ -95,5 +97,7 @@
 			</c:forEach>
 		</table>
 	</div>
+	
+	<div>${errMsg}</div>
 </body>
 </html>
