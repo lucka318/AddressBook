@@ -91,9 +91,7 @@ public class HomeController {
 		if (result.hasErrors()) {
 			model = new ModelAndView("ContactForm", result.getModel());
 		} else {
-			if (contact == null) { // new contact save
-				this.contact = contact;
-			}
+			this.contact = contact;
 			Sex sex = Sex.getInstance();
 			model = new ModelAndView("GenderForm", "sex", sex);
 		}
