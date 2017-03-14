@@ -17,10 +17,23 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 
+/**
+ * Class JDBCDAOImpl implements interface <code>DAO</code>.
+ * 
+ * @author Lucija Megla
+ *
+ */
 public class JDBCDAOImpl implements DAO {
 
 	private JdbcTemplate jdbcTemplate;
 
+	/**
+	 * Constructor of the class. It initializes an object for database
+	 * communication. Also, it sets Contact, Address, City and Country ID
+	 * database counters.
+	 * 
+	 * @param dataSource
+	 */
 	public JDBCDAOImpl(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 		setContactID();
@@ -285,17 +298,17 @@ public class JDBCDAOImpl implements DAO {
 					address.getStreetNo(), address.getCity_id(),
 					address.getId());
 		} else {
-			// insert
+			// insert new or edit
 			Address checkAddress = getAddress(address.getStreetName(),
 					address.getStreetNo());
-			if (checkAddress == null) {
+			if (checkAddress == null) { // if address doesn't exist in database
 				address.setId();
 				String sql = "INSERT INTO address (id, street, street_no, city_id)"
 						+ " VALUES (?, ?, ?, ?)";
 				jdbcTemplate.update(sql, address.getId(),
 						address.getStreetName(), address.getStreetNo(),
 						address.getCity_id());
-			} else {
+			} else { // if address exists
 				address.setId(checkAddress.getId());
 			}
 		}

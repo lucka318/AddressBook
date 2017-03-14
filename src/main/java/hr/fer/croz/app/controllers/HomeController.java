@@ -22,6 +22,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * Class HomeController is a controller that manages mappings from .jsp files to
+ * database.
+ * 
+ * @author Lucija Megla
+ *
+ */
 @Controller
 public class HomeController {
 
@@ -34,6 +41,14 @@ public class HomeController {
 	@Autowired
 	private DAO contactDAO;
 
+	/**
+	 * Get list of Contact, Cities and Countries from database and sends it to
+	 * home.jsp file.
+	 * 
+	 * @param model
+	 * @return {@link ModelAndView}
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "/")
 	public ModelAndView listContact(ModelAndView model) throws IOException {
 		List<Contact> contacts = contactDAO.getContacts();
@@ -47,6 +62,12 @@ public class HomeController {
 		return model;
 	}
 
+	/**
+	 * Maps to ContactForm.jsp to insert new Contact
+	 * 
+	 * @param model
+	 * @return {@link ModelAndView}
+	 */
 	@RequestMapping(value = "/newContact", method = RequestMethod.GET)
 	public ModelAndView newContact(ModelAndView model) {
 		Contact newContact = new Contact();
@@ -55,6 +76,14 @@ public class HomeController {
 		return model;
 	}
 
+	/**
+	 * Checks if ContactForm was filled properly. Saves contact in a variable so
+	 * it could later be inserted in database.
+	 * 
+	 * @param contact
+	 * @param result
+	 * @return {@link ModelAndView}
+	 */
 	@RequestMapping(value = "/saveContact", method = RequestMethod.POST)
 	public ModelAndView saveContact(@Valid @ModelAttribute Contact contact,
 			BindingResult result) {
@@ -71,6 +100,14 @@ public class HomeController {
 		return model;
 	}
 
+	/**
+	 * Checks if Gender Form was filled properly. Saves sex in a variable so it
+	 * could later be inserted in database.
+	 * 
+	 * @param sex
+	 * @param result
+	 * @return {@link ModelAndView}
+	 */
 	@RequestMapping(value = "/saveSex", method = RequestMethod.POST)
 	public ModelAndView saveSex(@Valid @ModelAttribute Sex sex,
 			BindingResult result) {
@@ -79,10 +116,10 @@ public class HomeController {
 			model = new ModelAndView("GenderForm", result.getModel());
 		} else {
 			this.sex = sex;
-			if (contact.getAddress() == null) {
+			if (contact.getAddress() == null) { // new address
 				Address address = new Address();
 				model = new ModelAndView("AddressForm", "address", address);
-			} else {
+			} else { // edit address
 				this.address = contact.getAddress();
 				model = new ModelAndView("AddressForm", "address", this.address);
 			}
@@ -90,6 +127,14 @@ public class HomeController {
 		return model;
 	}
 
+	/**
+	 * Checks if AddressForm was filled properly. Saves Address in a variable so
+	 * it could later be inserted in database.
+	 * 
+	 * @param address
+	 * @param result
+	 * @return {@link ModelAndView}
+	 */
 	@RequestMapping(value = "/saveAddress", method = RequestMethod.POST)
 	public ModelAndView saveAddress(@Valid @ModelAttribute Address address,
 			BindingResult result) {
@@ -97,11 +142,11 @@ public class HomeController {
 		if (result.hasErrors()) {
 			model = new ModelAndView("AddressForm", result.getModel());
 		} else {
-			if (this.address == null) {
+			if (this.address == null) { // new
 				this.address = address;
 				City city = new City();
 				model = new ModelAndView("CityForm", "city", city);
-			} else {
+			} else { // edit
 				this.city = this.address.getCity();
 				model = new ModelAndView("CityForm", "city", this.city);
 			}
@@ -109,6 +154,14 @@ public class HomeController {
 		return model;
 	}
 
+	/**
+	 * Checks if CityForm was filled properly. Saves City in a variable so it
+	 * could later be inserted in database.
+	 * 
+	 * @param city
+	 * @param result
+	 * @return {@link ModelAndView}
+	 */
 	@RequestMapping(value = "/saveCity", method = RequestMethod.POST)
 	public ModelAndView saveCity(@Valid @ModelAttribute City city,
 			BindingResult result) {
@@ -120,7 +173,7 @@ public class HomeController {
 				this.city = city;
 				Country country = new Country();
 				model = new ModelAndView("CountryForm", "country", country);
-			} else {
+			} else { // edit city
 				this.country = this.city.getCountry();
 				model = new ModelAndView("CountryForm", "country", this.country);
 			}
@@ -128,6 +181,14 @@ public class HomeController {
 		return model;
 	}
 
+	/**
+	 * Checks if CountryForm was filled properly. Saves Country in a variable so
+	 * it could later be inserted in database.
+	 * 
+	 * @param country
+	 * @param result
+	 * @return {@link ModelAndView}
+	 */
 	@RequestMapping(value = "/saveCountry", method = RequestMethod.POST)
 	public ModelAndView saveCountry(@Valid @ModelAttribute Country country,
 			BindingResult result) {
@@ -142,6 +203,12 @@ public class HomeController {
 		return model;
 	}
 
+	/**
+	 * Delete contact
+	 * 
+	 * @param request
+	 * @return {@link ModelAndView}
+	 */
 	@RequestMapping(value = "/deleteContact", method = RequestMethod.GET)
 	public ModelAndView deleteContact(HttpServletRequest request) {
 		long contactId = Long.parseLong(request.getParameter("id"));
@@ -149,6 +216,12 @@ public class HomeController {
 		return new ModelAndView("redirect:/");
 	}
 
+	/**
+	 * Edit an existing contact.
+	 * 
+	 * @param request
+	 * @return {@link ModelAndView}
+	 */
 	@RequestMapping(value = "/editContact", method = RequestMethod.GET)
 	public ModelAndView editContact(HttpServletRequest request) {
 		long contactId = Long.parseLong(request.getParameter("id"));
@@ -160,6 +233,12 @@ public class HomeController {
 		return model;
 	}
 
+	/**
+	 * Edit an existing city.
+	 * 
+	 * @param request
+	 * @return {@link ModelAndView}
+	 */
 	@RequestMapping(value = "/editCity", method = RequestMethod.GET)
 	public ModelAndView editCity(HttpServletRequest request) {
 		long cityId = Long.parseLong(request.getParameter("id"));
@@ -171,6 +250,12 @@ public class HomeController {
 		return model;
 	}
 
+	/**
+	 * Edit an existing country.
+	 * 
+	 * @param request
+	 * @return {@link ModelAndView}
+	 */
 	@RequestMapping(value = "/editCountry", method = RequestMethod.GET)
 	public ModelAndView editCountry(HttpServletRequest request) {
 		long countryId = Long.parseLong(request.getParameter("id"));
@@ -182,6 +267,12 @@ public class HomeController {
 		return model;
 	}
 
+	/**
+	 * Insert new city.
+	 * 
+	 * @param request
+	 * @return {@link ModelAndView}
+	 */
 	@RequestMapping(value = "/newCity", method = RequestMethod.GET)
 	public ModelAndView newCity(ModelAndView model) {
 		City newCity = new City();
@@ -190,6 +281,12 @@ public class HomeController {
 		return model;
 	}
 
+	/**
+	 * Insert new country.
+	 * 
+	 * @param request
+	 * @return {@link ModelAndView}
+	 */
 	@RequestMapping(value = "/newCountry", method = RequestMethod.GET)
 	public ModelAndView newCountry(ModelAndView model) {
 		Country newCountry = new Country();
@@ -198,6 +295,14 @@ public class HomeController {
 		return model;
 	}
 
+	/**
+	 * Delete a city. City won't be deleted if there exists an address in
+	 * database that is connected to the city.
+	 * 
+	 * @param request
+	 * @param map
+	 * @return
+	 */
 	@RequestMapping(value = "/deleteCity", method = RequestMethod.GET)
 	public ModelAndView deleteCity(HttpServletRequest request, ModelMap map) {
 		long cityId = Long.parseLong(request.getParameter("id"));
@@ -211,6 +316,13 @@ public class HomeController {
 
 	}
 
+	/**
+	 * Delete a country. Country won't be deleted if there exists a city in
+	 * database that is connected to the country.
+	 * 
+	 * @param request
+	 * @return {@link ModelAndView}
+	 */
 	@RequestMapping(value = "/deleteCountry", method = RequestMethod.GET)
 	public ModelAndView deleteCountry(HttpServletRequest request, ModelMap map) {
 		long countryId = Long.parseLong(request.getParameter("id"));
@@ -223,11 +335,20 @@ public class HomeController {
 		return new ModelAndView("redirect:/");
 	}
 
+	/**
+	 * If user enters invalid URL, redirects it to the main page.
+	 * 
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView invalidURL(HttpServletRequest request) {
 		return new ModelAndView("redirect:/");
 	}
 
+	/**
+	 * Save entites to database.
+	 */
 	private void saveToDatabase() {
 
 		if (country != null) {
@@ -256,6 +377,9 @@ public class HomeController {
 
 	}
 
+	/**
+	 * Reset variables after they have been put to database.
+	 */
 	private void resetVariables() {
 		this.contact = null;
 		this.address = null;
