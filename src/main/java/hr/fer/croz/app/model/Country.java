@@ -15,7 +15,6 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class Country {
 
-	private static long ID_CNT = 0;
 	private final static int name_constraint = 50;
 	private final static int alpha_2_constraint = 2;
 	private final static int alpha_3_constraint = 3;
@@ -56,14 +55,6 @@ public class Country {
 	 */
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	/**
-	 * Setter for field id. Used when saving Country to database.
-	 */
-	public void setId() {
-		ID_CNT++;
-		this.id = ID_CNT;
 	}
 
 	/**
@@ -118,15 +109,6 @@ public class Country {
 	 */
 	public void setAlpha_3(String aplha_3) {
 		this.alpha_3 = aplha_3.toLowerCase();
-	}
-
-	/**
-	 * Setter for ID_CNT that keeps track of last id in database.
-	 * 
-	 * @param iD_CNT
-	 */
-	public static void setID_CNT(long iD_CNT) {
-		ID_CNT = iD_CNT;
 	}
 
 }

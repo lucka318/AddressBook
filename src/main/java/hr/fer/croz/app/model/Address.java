@@ -18,7 +18,6 @@ import org.springframework.format.annotation.NumberFormat;
  */
 public class Address {
 
-	private static long ID_CNT = 0;
 	private final static int streetName_constraint_min = 3;
 	private final static int streetName_constraint_max = 50;
 	private final static int streetNo_constraint_min = 1;
@@ -44,8 +43,8 @@ public class Address {
 	@NumberFormat
 	private String streetNo;
 
-	private long city_id;
-	private City city;
+	//private long city_id;
+	private long city;
 
 	/**
 	 * Empty constructor.
@@ -69,14 +68,6 @@ public class Address {
 	 */
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	/**
-	 * Setter for field id. Used when setting id for database.
-	 */
-	public void setId() {
-		ID_CNT++;
-		this.id = ID_CNT;
 	}
 
 	/**
@@ -115,30 +106,13 @@ public class Address {
 		this.streetNo = streetNo;
 	}
 
-	/**
-	 * Getter for city id.
-	 * 
-	 * @return long
-	 */
-	public long getCity_id() {
-		return city_id;
-	}
-
-	/**
-	 * Setter for field city id.
-	 * 
-	 * @param city_id
-	 */
-	public void setCity_id(long city_id) {
-		this.city_id = city_id;
-	}
 
 	/**
 	 * Getter for City
 	 * 
 	 * @return City.
 	 */
-	public City getCity() {
+	public long getCity() {
 		return city;
 	}
 
@@ -147,17 +121,7 @@ public class Address {
 	 * 
 	 * @param city
 	 */
-	public void setCity(City city) {
+	public void setCity(long city) {
 		this.city = city;
 	}
-
-	/**
-	 * Setter for ID_CNT that keeps last used ID in database.
-	 * 
-	 * @param iD_CNT
-	 */
-	public static void setID_CNT(long iD_CNT) {
-		ID_CNT = iD_CNT;
-	}
-
 }

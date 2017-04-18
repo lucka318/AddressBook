@@ -16,7 +16,6 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class City {
 
-	private static long ID_CNT = 0;
 	private final static int name_constraint_min = 2;
 	private final static int name_constraint_max = 50;
 	private final static int zipcode_constraint_min = 4;
@@ -40,13 +39,11 @@ public class City {
 			+ " characters long")
 	private String zipcode;
 
-	private long country_id;
-	private Country country;
+	//private long country_id;
+	private long country;
 
 	public City(String name, String zipcode) {
 		super();
-		ID_CNT++; // check overflow
-		this.id = ID_CNT;
 		this.name = name;
 		this.zipcode = zipcode;
 	}
@@ -75,13 +72,6 @@ public class City {
 		this.id = id;
 	}
 
-	/**
-	 * Setter for field id. Used when saving City to database.
-	 */
-	public void setId() {
-		ID_CNT++;
-		this.id = ID_CNT;
-	}
 
 	/**
 	 * Getter for field name.
@@ -119,30 +109,13 @@ public class City {
 		this.zipcode = zipcode.toLowerCase();
 	}
 
-	/**
-	 * Getter for country id.
-	 * 
-	 * @return long
-	 */
-	public long getCountry_id() {
-		return country_id;
-	}
-
-	/**
-	 * Setter for country_id.
-	 * 
-	 * @param country_id
-	 */
-	public void setCountry_id(long country_id) {
-		this.country_id = country_id;
-	}
 
 	/**
 	 * Getter for field country
 	 * 
 	 * @return Country
 	 */
-	public Country getCountry() {
+	public long getCountry() {
 		return country;
 	}
 
@@ -151,18 +124,8 @@ public class City {
 	 * 
 	 * @param country
 	 */
-	public void setCountry(Country country) {
+	public void setCountry(long country) {
 		this.country = country;
-	}
-
-	/**
-	 * Setter for variable ID_CNT. Used when starting the application to set
-	 * database id's.
-	 * 
-	 * @param iD_CNT
-	 */
-	public static void setID_CNT(long iD_CNT) {
-		ID_CNT = iD_CNT;
 	}
 
 }

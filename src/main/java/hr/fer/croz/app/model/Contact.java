@@ -20,7 +20,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class Contact {
 
-	private static long ID_CNT = 0;
+	//private static long ID_CNT = 0;
 	private final static int firstName_constraint = 20;
 	private final static int lastName_constraint = 50;
 	private final static int phone_constraint = 13;
@@ -50,10 +50,10 @@ public class Contact {
 	@Email
 	private String email;
 
-	private long address_id;
-	private Address address;
-	private long sex_id;
-	private String sex;
+	//private long address_id;
+	private long address;
+	//private long sex_id;
+	private long sex;
 
 	/**
 	 * Empty constructor
@@ -68,15 +68,6 @@ public class Contact {
 	 */
 	public long getId() {
 		return id;
-	}
-
-	/**
-	 * Setter for field id Used for setting database id when putting Contact
-	 * into a database.
-	 */
-	public void setId() {
-		ID_CNT++;
-		this.id = ID_CNT;
 	}
 
 	/**
@@ -169,7 +160,7 @@ public class Contact {
 	 * 
 	 * @return Address
 	 */
-	public Address getAddress() {
+	public long getAddress() {
 		return address;
 	}
 
@@ -179,70 +170,17 @@ public class Contact {
 	 * @param address
 	 *            Address
 	 */
-	public void setAddress(Address address) {
+	public void setAddress(long address) {
 		this.address = address;
 	}
 
-	/**
-	 * Get current database ID.
-	 * 
-	 * @return long
-	 */
-	public static long getID_CNT() {
-		return ID_CNT;
-	}
-
-	/**
-	 * Set current database ID. Used when starting the application
-	 * 
-	 * @param iD_CNT
-	 */
-	public static void setID_CNT(long iD_CNT) {
-		ID_CNT = iD_CNT;
-	}
-
-	/**
-	 * Getter for field address
-	 * 
-	 * @return long
-	 */
-	public long getAddress_id() {
-		return address_id;
-	}
-
-	/**
-	 * Setter for field address_id.
-	 * 
-	 * @param address_id
-	 */
-	public void setAddress_id(long address_id) {
-		this.address_id = address_id;
-	}
-
-	/**
-	 * Getter for field sex_id
-	 * 
-	 * @return long
-	 */
-	public long getSex_id() {
-		return sex_id;
-	}
-
-	/**
-	 * Setter for field sex_id
-	 * 
-	 * @param sex_id
-	 */
-	public void setSex_id(long sex_id) {
-		this.sex_id = sex_id;
-	}
 
 	/**
 	 * Getter for field sex.
 	 * 
 	 * @return String
 	 */
-	public String getSex() {
+	public long getSex() {
 		return sex;
 	}
 
@@ -251,7 +189,7 @@ public class Contact {
 	 * 
 	 * @param sex
 	 */
-	public void setSex(String sex) {
+	public void setSex(long sex) {
 		this.sex = sex;
 	}
 
