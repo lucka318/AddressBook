@@ -31,4 +31,6 @@ public interface ContactDAO {
 
 	public boolean contactExists(Contact contact);
 
+	public List<Contact> getContacts(long addressId);
+
 }

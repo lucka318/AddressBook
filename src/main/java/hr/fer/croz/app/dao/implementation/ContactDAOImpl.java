@@ -3,7 +3,6 @@ package hr.fer.croz.app.dao.implementation;
 import hr.fer.croz.app.dao.ContactDAO;
 import hr.fer.croz.app.model.Contact;
 
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -139,5 +138,26 @@ public class ContactDAOImpl implements ContactDAO {
 		} else {
 			return true;
 		}
+	}
+
+	public List<Contact> getContacts(long addressId) {
+		String sql = "SELECT * FROM contact WHERE address_id=" + addressId;
+		List<Contact> contacts = jdbcTemplate.query(sql, new RowMapper<Contact>() {
+
+			public Contact mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Contact contact = new Contact();
+				contact.setId(rs.getInt("id"));
+				contact.setFirstName(rs.getString("first_name"));
+				contact.setLastName(rs.getString("last_name"));
+				contact.setPhone(rs.getString("phone"));
+				contact.setEmail(rs.getString("email"));
+				contact.setSex(rs.getLong("sex_id"));
+				contact.setAddress(rs.getLong("address_id"));
+				return contact;
+			}
+
+		});
+
+		return contacts;
 	}
 }

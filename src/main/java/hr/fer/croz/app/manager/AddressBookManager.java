@@ -32,18 +32,15 @@ public class AddressBookManager {
 	}
 
 	public List<Contact> fetchContacts() {
-		// TODO Auto-generated method stub
-		return null;
+		return contactDAO.getContacts();
 	}
 
 	public List<City> fetchCities() {
-		// TODO Auto-generated method stub
-		return null;
+		return cityDAO.getCities();
 	}
 
 	public List<Country> fetchCountries() {
-		// TODO Auto-generated method stub
-		return null;
+		return countryDAO.getCountries();
 	}
 
 	public void saveNewToDatabase(AddressBookEntity addressBookEntity) {
@@ -162,8 +159,30 @@ public class AddressBookManager {
 	}
 
 	public void deleteContactFromDatabase(long contactId) {
-		// TODO Auto-generated method stub
-		
+		contactDAO.deleteContact(contactId);
+	}
+
+	public String deleteAddressFromDatabase(long addressId) {
+		List<Contact> contacts = contactDAO.getContacts(addressId);
+		if (contacts.isEmpty()) {
+			addressDAO.deleteAddress(addressId);
+			return "";
+		} else {
+			Address address = addressDAO.getAddress(addressId);
+			return "There exists at least one contact that has " + address.getStreetName() + " "
+					+ address.getStreetName() + "as an address";
+		}
+	}
+
+	public List<Address> fetchAddresses() {
+		return addressDAO.getAddresses();
+	}
+
+	public void saveNewAddressToDatabase(AddressBookEntity addressBookEntity) {
+
+		Address address = addressBookEntity.getAddress();
+		saveToDatabaseNewAddress(address);
+
 	}
 
 }

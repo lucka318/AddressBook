@@ -36,9 +36,11 @@ public class AddressFormController {
 		String view = "";
 
 		if (result.hasErrors()) {
-			
+			model.addAllAttributes(result.getModel());
+			view = "AddressForm";
 		} else {
-		
+			addressBookManager.saveNewAddressToDatabase(addressBookEntity);
+			view = "redirect:/";
 		}
 		return view;
 	}

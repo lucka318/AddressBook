@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>New/Edit Contact</title>
+<title>New Contact</title>
 </head>
 <body>
 	<div align="center">
@@ -16,23 +16,23 @@
 			<form:hidden path="id"/>
 			<tr>
 				<td>First Name:</td>
-				<td><form:input path="firstName" /></td>
-				<td><form:errors path="firstName"/></td>
+				<td><form:input path="addressBookEntity.contact.firstName" /></td>
+				<td><form:errors path="addressBookEntity.contact.firstName"/></td>
 			</tr>
 			<tr>
 				<td>Last Name:</td>
-				<td><form:input path="lastName" /></td>
-				<td><form:errors path="lastName"/></td>
+				<td><form:input path="addressBookEntity.contact.lastName" /></td>
+				<td><form:errors path="addressBookEntity.contact.lastName"/></td>
 			</tr>
 			<tr>
 				<td>Email:</td>
-				<td><form:input path="email" /></td>
-				<td><form:errors path="email"/></td>
+				<td><form:input path="addressBookEntity.contact.email" /></td>
+				<td><form:errors path="addressBookEntity.contact.email"/></td>
 			</tr>
 			<tr>
 				<td>Telephone:</td>
-				<td><form:input path="phone" /></td>
-				<td><form:errors path="phone"/></td>
+				<td><form:input path="addressBookEntity.contact.phone" /></td>
+				<td><form:errors path="addressBookEntity.contact.phone"/></td>
 			</tr>
 			<tr>
 					<td><form:radiobutton path="name" value="Male" checked="checked" />Male <form:radiobutton
@@ -44,38 +44,38 @@
 			</tr>
 			<tr>
 				<td>Street Name:</td>
-				<td><form:input path="streetName" /></td>
-				<td><form:errors path="streetName"/></td>
+				<td><form:input path="addressBookEntity.address.streetName" /></td>
+				<td><form:errors path="addressBookEntity.address.streetName"/></td>
 			</tr>
 			<tr>
 				<td>Street Number:</td>
-				<td><form:input path="streetNo" /></td>
-				<td><form:errors path="streetNo"/></td>
+				<td><form:input path="addressBookEntity.address.streetNo" /></td>
+				<td><form:errors path="addressBookEntity.address.streetNo"/></td>
 			</tr>
 			<tr>
 				<td>City Name:</td>
-				<td><form:input path="name" /></td>
-				<td><form:errors path="name"/></td>
+				<td><form:input path="addressBookEntity.city.name" /></td>
+				<td><form:errors path="addressBookEntity.city.name"/></td>
 			</tr>
 			<tr>
 				<td>Zip code:</td>
-				<td><form:input path="zipcode" /></td>
-				<td><form:errors path="zipcode"/></td>
+				<td><form:input path="addressBookEntity.city.zipcode" /></td>
+				<td><form:errors path="addressBookEntity.city.zipcode"/></td>
 			</tr>
 			<tr>
 				<td>Country Name:</td>
-				<td><form:input path="name" /></td>
-				<td><form:errors path="name"/></td>
+				<td><form:input path="addressBookEntity.country.name" /></td>
+				<td><form:errors path="addressBookEntity.country.name"/></td>
 			</tr>
 			<tr>
 				<td>Alpha_2:</td>
-				<td><form:input path="alpha_2" /></td>
-				<td><form:errors path="alpha_2"/></td>
+				<td><form:input path="addressBookEntity.country.alpha_2" /></td>
+				<td><form:errors path="addressBookEntity.country.alpha_2"/></td>
 			</tr>
 			<tr>
 				<td>Alpha_3</td>
-				<td><form:input path="alpha_3" /></td>
-				<td><form:errors path="alpha_3"/></td>
+				<td><form:input path="addressBookEntity.country.alpha_3" /></td>
+				<td><form:errors path="addressBookEntity.country.alpha_3"/></td>
 			</tr>
 			<tr>
 				<td colspan="2" align="center"><input type="submit" value="Save"></td>

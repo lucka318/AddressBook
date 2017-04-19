@@ -1,10 +1,9 @@
 package hr.fer.croz.app.controllers;
 
 import hr.fer.croz.app.manager.AddressBookManager;
+import hr.fer.croz.app.model.Address;
 import hr.fer.croz.app.model.AddressBookEntity;
-import hr.fer.croz.app.model.City;
 import hr.fer.croz.app.model.Contact;
-import hr.fer.croz.app.model.Country;
 
 import java.io.IOException;
 import java.util.List;
@@ -42,11 +41,9 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String listContact(Model model) throws IOException {
 		List<Contact> contacts = addressBookManager.fetchContacts();
-		List<City> cities = addressBookManager.fetchCities();
-		List<Country> countries = addressBookManager.fetchCountries();
+		List<Address> addresses = addressBookManager.fetchAddresses();
 		model.addAttribute("contacts", contacts);
-		model.addAttribute("cities", cities);
-		model.addAttribute("countries", countries);
+		model.addAttribute("addresses", addresses);
 		return "home";
 	}
 
@@ -63,7 +60,6 @@ public class HomeController {
 		return "ContactForm";
 	}
 
-
 	/**
 	 * Delete contact
 	 * 
@@ -72,11 +68,19 @@ public class HomeController {
 	 */
 
 	@RequestMapping(value = "/deleteContact", method = RequestMethod.GET)
-	public ModelAndView deleteContact(HttpServletRequest request) {
+	public String deleteContact(HttpServletRequest request) {
 		long contactId = Long.parseLong(request.getParameter("id"));
 		// salji greske kao povratnu vrijednost
 		addressBookManager.deleteContactFromDatabase(contactId);
-		return new ModelAndView("redirect:/");
+		return "redirect:/";
+	}
+
+	@RequestMapping(value = "/deleteAddress", method = RequestMethod.GET)
+	public String deleteAddress(HttpServletRequest request) {
+		long addressId = Long.parseLong(request.getParameter("id"));
+		// salji greske kao povratnu vrijednost
+		String error = addressBookManager.deleteAddressFromDatabase(addressId);
+		return "redirect:/";
 	}
 
 	/**
@@ -86,17 +90,14 @@ public class HomeController {
 	 * @return {@link ModelAndView}
 	 */
 	@RequestMapping(value = "/editContact", method = RequestMethod.GET)
-	public ModelAndView editContact(HttpServletRequest request) {
+	public String editContact(HttpServletRequest request, Model model) {
 		long contactId = Long.parseLong(request.getParameter("id"));
 
 		AddressBookEntity addressBookEntity = addressBookManager.prepareAddressBookEntity(contactId);
-		ModelAndView model = new ModelAndView("InputFormEdit");
-		model.addObject("addressBookEntity", addressBookEntity);
+		model.addAttribute("addressBookEntity", addressBookEntity);
 
-		return model;
+		return "ContactForm";
 	}
-
-
 
 	/**
 	 * If user enters invalid URL, redirects it to the main page.
@@ -105,9 +106,8 @@ public class HomeController {
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView invalidURL(HttpServletRequest request) {
-		return new ModelAndView("redirect:/");
+	public String invalidURL(HttpServletRequest request) {
+		return "redirect:/";
 	}
-
 
 }
