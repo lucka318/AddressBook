@@ -20,7 +20,6 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class Contact {
 
-	// private static long ID_CNT = 0;
 	private final static int firstName_constraint = 20;
 	private final static int lastName_constraint = 50;
 	private final static int phone_constraint = 13;

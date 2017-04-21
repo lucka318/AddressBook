@@ -46,7 +46,7 @@ public class AddressFormController {
 	}
 
 	// isprobaj razliciti redoslijed parametara
-	@RequestMapping(value = "/saveAddress", method = RequestMethod.POST)
+	@RequestMapping(value = "/saveEditAddress", method = RequestMethod.POST)
 	public String saveEditAddress(@Valid @ModelAttribute AddressEntity addressEntity, BindingResult result,
 			Model model) {
 		String view = "";
@@ -54,7 +54,7 @@ public class AddressFormController {
 			model.addAllAttributes(result.getModel());
 			view = "AddressForm";
 		} else {
-			addressBookManager.saveNewToDatabase(addressEntity);
+			addressBookManager.saveUpdateToDatabase(addressEntity);
 			view = "redirect:/";
 		}
 		return view;

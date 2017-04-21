@@ -12,27 +12,27 @@
 	<div align="center">
 		<h1>New/Edit Contact</h1>
 		<form:form action="saveContact" method="post"
-			modelAttribute="addressBookEntity">
+			modelAttribute="contactEntity">
 			<table>
 				<tr>
 					<td>First Name:</td>
-					<td><form:input path="addressBookEntity.contact.firstName" /></td>
-					<td><form:errors path="addressBookEntity.contact.firstName" /></td>
+					<td><form:input path="contactEntity.firstName" /></td>
+					<td><form:errors path="contactEntity.firstName" /></td>
 				</tr>
 				<tr>
 					<td>Last Name:</td>
-					<td><form:input path="addressBookEntity.contact.lastName" /></td>
-					<td><form:errors path="addressBookEntity.contact.lastName" /></td>
+					<td><form:input path="contactEntity.lastName" /></td>
+					<td><form:errors path="contactEntity.lastName" /></td>
 				</tr>
 				<tr>
 					<td>Email:</td>
-					<td><form:input path="addressBookEntity.contact.email" /></td>
-					<td><form:errors path="addressBookEntity.contact.email" /></td>
+					<td><form:input path="contactEntity.email" /></td>
+					<td><form:errors path="contactEntity.email" /></td>
 				</tr>
 				<tr>
 					<td>Telephone:</td>
-					<td><form:input path="addressBookEntity.contact.phone" /></td>
-					<td><form:errors path="addressBookEntity.contact.phone" /></td>
+					<td><form:input path="contactEntity.phone" /></td>
+					<td><form:errors path="contactEntity.phone" /></td>
 				</tr>
 				<tr>
 					<td><form:radiobutton path="name" value="Male"
