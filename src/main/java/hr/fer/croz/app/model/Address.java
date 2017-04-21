@@ -28,23 +28,17 @@ public class Address {
 	@NotEmpty
 	@Pattern(regexp = "^[A-Za-z]*$")
 	@Size(min = streetName_constraint_min, max = streetName_constraint_max, message = "Name has to be between "
-			+ streetName_constraint_min
-			+ " and "
-			+ streetName_constraint_max
-			+ " characters long")
+			+ streetName_constraint_min + " and " + streetName_constraint_max + " characters long")
 	private String streetName;
 
 	@NotEmpty
 	@Size(min = streetNo_constraint_min, max = streetNo_constraint_max, message = "Number has to be between "
-			+ streetNo_constraint_min
-			+ " and "
-			+ streetNo_constraint_max
-			+ " characters long")
+			+ streetNo_constraint_min + " and " + streetNo_constraint_max + " characters long")
 	@NumberFormat
 	private String streetNo;
 
-	//private long city_id;
-	private long city;
+	private long cityID;
+	private City city;
 
 	/**
 	 * Empty constructor.
@@ -106,13 +100,12 @@ public class Address {
 		this.streetNo = streetNo;
 	}
 
-
 	/**
 	 * Getter for City
 	 * 
 	 * @return City.
 	 */
-	public long getCity() {
+	public City getCity() {
 		return city;
 	}
 
@@ -121,7 +114,15 @@ public class Address {
 	 * 
 	 * @param city
 	 */
-	public void setCity(long city) {
+	public void setCity(City city) {
 		this.city = city;
+	}
+
+	public long getCityID() {
+		return cityID;
+	}
+
+	public void setCityID(long city_id) {
+		this.cityID = city_id;
 	}
 }

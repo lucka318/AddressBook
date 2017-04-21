@@ -49,7 +49,7 @@ public class CityDAOImpl implements CityDAO {
 					city.setId(rs.getLong("id"));
 					city.setName(rs.getString("name"));
 					city.setZipcode(rs.getString("zip_code"));
-					city.setCountry(rs.getLong("country_id"));
+					city.setCountryID(rs.getLong("country_id"));
 					return city;
 				}
 
@@ -93,7 +93,7 @@ public class CityDAOImpl implements CityDAO {
 	 * @return true if given City exists in database, false otherwise
 	 */
 	public boolean cityExists(City city) {
-		City cityToCheck = getCity(city.getName(), city.getZipcode(), city.getCountry());
+		City cityToCheck = getCity(city.getName(), city.getZipcode(), city.getCountryID());
 		if (cityToCheck == null) {
 			return false;
 		} else {
@@ -110,7 +110,7 @@ public class CityDAOImpl implements CityDAO {
 				city.setId(rs.getLong("id"));
 				city.setName(rs.getString("name"));
 				city.setZipcode(rs.getString("zip_code"));
-				city.setCountry(rs.getLong("country_id"));
+				city.setCountryID(rs.getLong("country_id"));
 				return city;
 			}
 

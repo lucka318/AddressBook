@@ -10,10 +10,12 @@ import hr.fer.croz.app.dao.ContactDAO;
 import hr.fer.croz.app.dao.CountryDAO;
 import hr.fer.croz.app.dao.GenderDAO;
 import hr.fer.croz.app.model.Address;
-import hr.fer.croz.app.model.AddressBookEntity;
+import hr.fer.croz.app.model.AddressEntity;
 import hr.fer.croz.app.model.City;
 import hr.fer.croz.app.model.Contact;
+import hr.fer.croz.app.model.ContactEntity;
 import hr.fer.croz.app.model.Country;
+import hr.fer.croz.app.model.Sex;
 
 public class AddressBookManager {
 
@@ -32,57 +34,58 @@ public class AddressBookManager {
 	}
 
 	public List<Contact> fetchContacts() {
-		return contactDAO.getContacts();
+		List<Contact> contacts = contactDAO.getContacts();
+		for (Contact c : contacts) {
+			c.setAddress(getAddressObjectTree(c.getAddressID()));
+			c.setSex(getSexObjectTree(c.getSexID()));
+		}
+		return contacts;
+	}
+
+	private Sex getSexObjectTree(long sexID) {
+		Sex sex = genderDAO.getSex(sexID);
+
+		return sex;
+	}
+
+	private Address getAddressObjectTree(long addressID) {
+		Address address = addressDAO.getAddress(addressID);
+		long cityID = address.getCityID();
+		City city = cityDAO.getCity(cityID);
+		long countryID = city.getCountryID();
+		Country country = countryDAO.getCountry(countryID);
+		city.setCountry(country);
+		address.setCity(city);
+		return address;
+	}
+
+	public List<Address> fetchAddresses() {
+		List<Address> addresses = addressDAO.getAddresses();
+		for (Address a : addresses) {
+			a.setCity(getCityObjectTree(a.getCityID()));
+		}
+		return addresses;
+	}
+
+	private City getCityObjectTree(long cityID) {
+		City city = cityDAO.getCity(cityID);
+		long countryID = city.getCountryID();
+		Country country = countryDAO.getCountry(countryID);
+		city.setCountry(country);
+		return city;
 	}
 
 	public List<City> fetchCities() {
-		return cityDAO.getCities();
+		List<City> cities = cityDAO.getCities();
+		for (City c : cities) {
+			c.setCountry(getCountryObjectTree(c.getCountryID()));
+		}
+		return cities;
 	}
 
-	public List<Country> fetchCountries() {
-		return countryDAO.getCountries();
-	}
-
-	public void saveNewToDatabase(AddressBookEntity addressBookEntity) {
-		Country country = addressBookEntity.getCountry();
-		saveToDatabaseNewCountry(country);
-		City city = addressBookEntity.getCity();
-		saveToDatabaseNewCity(city);
-		Address address = addressBookEntity.getAddress();
-		saveToDatabaseNewAddress(address);
-		Contact contact = addressBookEntity.getContact();
-		saveToDatabaseNewContact(contact);
-
-	}
-
-	public AddressBookEntity prepareAddressBookEntity(long contactId) {
-		Contact contact = contactDAO.getContact(contactId);
-		Address address = addressDAO.getAddress(contact.getAddress());
-		City city = cityDAO.getCity(address.getId());
-		Country country = countryDAO.getCountry(city.getId());
-		String sex = genderDAO.getSex(contact.getSex());
-		AddressBookEntity abe = new AddressBookEntity();
-		abe.setContact(contact);
-		abe.setAddress(address);
-		abe.setCity(city);
-		abe.setCountry(country);
-		abe.setSex(sex);
-		return abe;
-	}
-
-	public void saveUpdateToDatabase(AddressBookEntity addressBookEntity) {
-
-		Country country = addressBookEntity.getCountry();
-		saveToDatabaseUpdateCountry(country);
-
-		City city = addressBookEntity.getCity();
-		saveToDatabaseUpdateCity(city);
-
-		Address address = addressBookEntity.getAddress();
-		saveToDatabaseUpdateAddress(address);
-
-		Contact contact = addressBookEntity.getContact();
-		saveToDatabaseUpdateContact(contact);
+	private Country getCountryObjectTree(long countryID) {
+		Country country = countryDAO.getCountry(countryID);
+		return country;
 	}
 
 	private void saveToDatabaseNewContact(Contact contact) {
@@ -94,30 +97,11 @@ public class AddressBookManager {
 		}
 	}
 
-	private void saveToDatabaseNewCountry(Country country) {
-		if (country != null) {
-			boolean check = countryDAO.countryExists(country);
-			if (!check) {
-				country = countryDAO.createTuple(country);
-			}
-		}
-
-	}
-
 	private void saveToDatabaseNewAddress(Address address) {
 		if (address != null) {
 			boolean check = addressDAO.addressExists(address);
 			if (!check) {
 				address = addressDAO.createTuple(address);
-			}
-		}
-	}
-
-	private void saveToDatabaseNewCity(City city) {
-		if (city != null) {
-			boolean check = cityDAO.cityExists(city);
-			if (!check) {
-				city = cityDAO.createTuple(city);
 			}
 		}
 	}
@@ -140,24 +124,6 @@ public class AddressBookManager {
 		}
 	}
 
-	private void saveToDatabaseUpdateCity(City city) {
-		if (city != null) {
-			boolean check = cityDAO.cityExists(city);
-			if (!check) {
-				city = cityDAO.updateTuple(city);
-			}
-		}
-	}
-
-	private void saveToDatabaseUpdateCountry(Country country) {
-		if (country != null) {
-			boolean check = countryDAO.countryExists(country);
-			if (!check) {
-				country = countryDAO.updateTuple(country);
-			}
-		}
-	}
-
 	public void deleteContactFromDatabase(long contactId) {
 		contactDAO.deleteContact(contactId);
 	}
@@ -174,15 +140,62 @@ public class AddressBookManager {
 		}
 	}
 
-	public List<Address> fetchAddresses() {
-		return addressDAO.getAddresses();
+	public ContactEntity prepareContactEntity(long contactId) {
+		Contact contact = contactDAO.getContact(contactId);
+		contact.setAddress(getAddressObjectTree(contact.getAddressID()));
+
+		ContactEntity contactEntity = new ContactEntity();
+		contactEntity.setFirstName(contact.getFirstName());
+		contactEntity.setLastName(contact.getLastName());
+		contactEntity.setEmail(contact.getEmail());
+		contactEntity.setPhone(contact.getPhone());
+		contactEntity.setGenderID(contact.getSexID());
+		contactEntity.setAddressID(contact.getAddressID());
+		return contactEntity;
 	}
 
-	public void saveNewAddressToDatabase(AddressBookEntity addressBookEntity) {
+	public void saveNewToDatabase(AddressEntity addressEntity) {
 
-		Address address = addressBookEntity.getAddress();
+		Address address = extractAddress(addressEntity);
+
 		saveToDatabaseNewAddress(address);
 
+	}
+
+	private Address extractAddress(AddressEntity addressEntity) {
+		Address address = new Address();
+		address.setStreetName(addressEntity.getStreetName());
+		address.setStreetNo(addressEntity.getStreetNo());
+		address.setCityID(addressEntity.getCityID());
+		return address;
+	}
+
+	public void saveNewToDatabase(ContactEntity contactEntity) {
+		Contact contact = extractContact(contactEntity);
+		saveToDatabaseNewContact(contact);
+
+	}
+
+	private Contact extractContact(ContactEntity contactEntity) {
+		Contact contact = new Contact();
+		contact.setFirstName(contactEntity.getFirstName());
+		contact.setLastName(contactEntity.getLastName());
+		contact.setEmail(contactEntity.getEmail());
+		contact.setAddressID(contactEntity.getAddressID());
+		contact.setEmail(contactEntity.getEmail());
+		contact.setSexID(contactEntity.getGenderID());
+		return contact;
+	}
+
+	public void saveUpdateToDatabase(AddressEntity addressEntity) {
+		Address address = extractAddress(addressEntity);
+		saveToDatabaseUpdateAddress(address);
+
+	}
+
+	public void saveUpdateToDatabase(ContactEntity contactEntity) {
+		Contact contact = extractContact(contactEntity);
+		saveToDatabaseUpdateContact(contact);
 	}
 
 }

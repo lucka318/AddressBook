@@ -88,7 +88,7 @@ public class CountryDAOImpl implements CountryDAO {
 				city.setId(rs.getLong("id"));
 				city.setName(rs.getString("name"));
 				city.setZipcode(rs.getString("zip_code"));
-				city.setCountry(rs.getLong("country_id"));
+				city.setCountryID(rs.getLong("country_id"));
 				return city;
 			}
 

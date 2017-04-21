@@ -2,8 +2,10 @@ package hr.fer.croz.app.controllers;
 
 import hr.fer.croz.app.manager.AddressBookManager;
 import hr.fer.croz.app.model.Address;
-import hr.fer.croz.app.model.AddressBookEntity;
+import hr.fer.croz.app.model.AddressEntity;
+import hr.fer.croz.app.model.City;
 import hr.fer.croz.app.model.Contact;
+import hr.fer.croz.app.model.ContactEntity;
 
 import java.io.IOException;
 import java.util.List;
@@ -55,9 +57,18 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/newContact", method = RequestMethod.GET)
 	public String newContact(Model model) {
-		AddressBookEntity addressBookEntity = new AddressBookEntity();
-		model.addAttribute("addressBookEntity", addressBookEntity);
+		ContactEntity contactEntity = new ContactEntity();
+		model.addAttribute("contactEntity", contactEntity);
 		return "ContactForm";
+	}
+
+	@RequestMapping(value = "/newAddress", method = RequestMethod.GET)
+	public String newAddress(Model model) {
+		AddressEntity addressEntity = new AddressEntity();
+		List<City> cities = addressBookManager.fetchCities();
+		model.addAttribute("cities", cities);
+		model.addAttribute("addressEntity", addressEntity);
+		return "AddressForm";
 	}
 
 	/**
@@ -93,7 +104,7 @@ public class HomeController {
 	public String editContact(HttpServletRequest request, Model model) {
 		long contactId = Long.parseLong(request.getParameter("id"));
 
-		AddressBookEntity addressBookEntity = addressBookManager.prepareAddressBookEntity(contactId);
+		ContactEntity addressBookEntity = addressBookManager.prepareContactEntity(contactId);
 		model.addAttribute("addressBookEntity", addressBookEntity);
 
 		return "ContactForm";

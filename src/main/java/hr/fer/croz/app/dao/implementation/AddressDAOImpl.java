@@ -38,7 +38,7 @@ public class AddressDAOImpl implements AddressDAO {
 		return address;
 	}
 
-	public Address getAddress(Long id) {
+	public Address getAddress(long id) {
 		String sql = "SELECT * FROM address WHERE id=" + id;
 		return jdbcTemplate.query(sql, new ResultSetExtractor<Address>() {
 
@@ -48,7 +48,7 @@ public class AddressDAOImpl implements AddressDAO {
 					address.setId(rs.getLong("id"));
 					address.setStreetName(rs.getString("street"));
 					address.setStreetNo(rs.getString("street_no"));
-					address.setCity(rs.getLong("city_id"));
+					address.setCityID(rs.getLong("city_id"));
 					return address;
 				}
 
@@ -58,7 +58,7 @@ public class AddressDAOImpl implements AddressDAO {
 		});
 	}
 
-	public Address getAddress(String name, String no, Long city_id) {
+	public Address getAddress(String name, String no, long city_id) {
 		String sql = "SELECT * FROM address WHERE street='" + name + "'" + " AND street_no='" + no + " AND city_id="
 				+ city_id + "'";
 		return jdbcTemplate.query(sql, new ResultSetExtractor<Address>() {
@@ -69,7 +69,7 @@ public class AddressDAOImpl implements AddressDAO {
 					address.setId(rs.getLong("id"));
 					address.setStreetName(rs.getString("street"));
 					address.setStreetNo(rs.getString("street_no"));
-					address.setCity(rs.getLong("city_id"));
+					address.setCityID(rs.getLong("city_id"));
 					return address;
 				}
 
@@ -87,7 +87,7 @@ public class AddressDAOImpl implements AddressDAO {
 	 */
 	// trebaju li exists metode biti u DaoImpl ili u manageru??
 	public boolean addressExists(Address address) {
-		Address addressToCheck = getAddress(address.getStreetName(), address.getStreetNo(), address.getCity());
+		Address addressToCheck = getAddress(address.getStreetName(), address.getStreetNo(), address.getCityID());
 		if (addressToCheck == null) {
 			return false;
 		} else {
@@ -104,7 +104,7 @@ public class AddressDAOImpl implements AddressDAO {
 				address.setId(rs.getLong("id"));
 				address.setStreetName(rs.getString("street"));
 				address.setStreetNo(rs.getString("street_no"));
-				address.setCity(rs.getLong("city_id"));
+				address.setCityID(rs.getLong("city_id"));
 				return address;
 			}
 
@@ -113,7 +113,7 @@ public class AddressDAOImpl implements AddressDAO {
 		return addresses;
 	}
 
-	public void deleteAddress(Long id) {
+	public void deleteAddress(long id) {
 		String sql = "DELETE FROM address WHERE id=?";
 		jdbcTemplate.update(sql, id);
 	}

@@ -3,6 +3,7 @@ package hr.fer.croz.app.controllers;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -11,8 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import hr.fer.croz.app.manager.AddressBookManager;
-import hr.fer.croz.app.model.AddressBookEntity;
+import hr.fer.croz.app.model.ContactEntity;
 
+@Controller
 public class ContactFormController {
 
 	@Autowired
@@ -28,22 +30,21 @@ public class ContactFormController {
 	 */
 	// isprobaj razliciti redoslijed parametara
 	@RequestMapping(value = "/saveContact", method = RequestMethod.POST)
-	public String saveContact(@Valid @ModelAttribute AddressBookEntity addressBookEntity, BindingResult result,
-			Model model) {
+	public String saveContact(@Valid @ModelAttribute ContactEntity contactEntity, BindingResult result, Model model) {
 		String view = "";
 
 		if (result.hasErrors()) {
 			model.addAllAttributes(result.getModel());
 			view = "ContactForm";
 		} else {
-			addressBookManager.saveNewToDatabase(addressBookEntity);
+			addressBookManager.saveNewToDatabase(contactEntity);
 			view = "redirect:/";
 		}
 		return view;
 	}
 
 	@RequestMapping(value = "/saveEditContact", method = RequestMethod.POST)
-	public String saveEditContact(@Valid @ModelAttribute AddressBookEntity addressBookEntity, BindingResult result,
+	public String saveEditContact(@Valid @ModelAttribute ContactEntity contactEntity, BindingResult result,
 			Model model) {
 		String view = "";
 
@@ -51,7 +52,7 @@ public class ContactFormController {
 			model.addAllAttributes(result.getModel());
 			view = "ContactForm";
 		} else {
-			addressBookManager.saveUpdateToDatabase(addressBookEntity);
+			addressBookManager.saveUpdateToDatabase(contactEntity);
 			view = "redirect:/";
 		}
 		return view;

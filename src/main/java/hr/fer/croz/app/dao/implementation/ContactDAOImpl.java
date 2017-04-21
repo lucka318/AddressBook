@@ -46,8 +46,8 @@ public class ContactDAOImpl implements ContactDAO {
 					contact.setLastName(rs.getString("last_name"));
 					contact.setPhone(rs.getString("phone"));
 					contact.setEmail(rs.getString("email"));
-					contact.setSex(rs.getLong("sex_id"));
-					contact.setAddress(rs.getLong("address_id"));
+					contact.setSexID(rs.getLong("sex_id"));
+					contact.setAddressID(rs.getLong("address_id"));
 					return contact;
 				}
 
@@ -70,8 +70,8 @@ public class ContactDAOImpl implements ContactDAO {
 					contact.setLastName(rs.getString("last_name"));
 					contact.setPhone(rs.getString("phone"));
 					contact.setEmail(rs.getString("email"));
-					contact.setSex(rs.getLong("sex_id"));
-					contact.setAddress(rs.getLong("address_id"));
+					contact.setSexID(rs.getLong("sex_id"));
+					contact.setAddressID(rs.getLong("address_id"));
 					return contact;
 				}
 
@@ -92,8 +92,8 @@ public class ContactDAOImpl implements ContactDAO {
 				contact.setLastName(rs.getString("last_name"));
 				contact.setPhone(rs.getString("phone"));
 				contact.setEmail(rs.getString("email"));
-				contact.setSex(rs.getLong("sex_id"));
-				contact.setAddress(rs.getLong("address_id"));
+				contact.setSexID(rs.getLong("sex_id"));
+				contact.setAddressID(rs.getLong("address_id"));
 				return contact;
 			}
 
@@ -131,7 +131,8 @@ public class ContactDAOImpl implements ContactDAO {
 
 	public boolean contactExists(Contact contact) {
 		Contact contactToCheck = getContact(contact.getFirstName(), contact.getLastName(), contact.getPhone(),
-				contact.getEmail(), contact.getSex()); // napraviti metodu koja
+				contact.getEmail(), contact.getSexID()); // napraviti metodu
+															// koja
 		// dohvaca cijeli kontakt
 		if (contactToCheck == null) {
 			return false;
@@ -151,8 +152,8 @@ public class ContactDAOImpl implements ContactDAO {
 				contact.setLastName(rs.getString("last_name"));
 				contact.setPhone(rs.getString("phone"));
 				contact.setEmail(rs.getString("email"));
-				contact.setSex(rs.getLong("sex_id"));
-				contact.setAddress(rs.getLong("address_id"));
+				contact.setSexID(rs.getLong("sex_id"));
+				contact.setAddressID(rs.getLong("address_id"));
 				return contact;
 			}
 

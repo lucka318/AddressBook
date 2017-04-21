@@ -10,13 +10,13 @@ public interface AddressDAO {
 
 	public Address updateTuple(Address address);
 
-	public Address getAddress(Long id);
+	public Address getAddress(long id);
 
-	public Address getAddress(String name, String no, Long city_id);
+	public Address getAddress(String name, String no, long city_id);
 
 	public List<Address> getAddresses();
 
-	public void deleteAddress(Long id);
+	public void deleteAddress(long id);
 
 	public boolean addressExists(Address address);
 

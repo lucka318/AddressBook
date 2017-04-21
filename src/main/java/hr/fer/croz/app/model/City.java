@@ -25,22 +25,16 @@ public class City {
 
 	@NotEmpty(message = "Please provide city name")
 	@Size(min = name_constraint_min, max = name_constraint_max, message = "Name has to be between "
-			+ name_constraint_min
-			+ " and "
-			+ name_constraint_max
-			+ " characters long")
+			+ name_constraint_min + " and " + name_constraint_max + " characters long")
 	private String name;
 
 	@NotEmpty(message = "Please provide zipcode")
 	@Size(min = zipcode_constraint_min, max = zipcode_constraint_max, message = "Zipcode size has to be between "
-			+ zipcode_constraint_min
-			+ " and "
-			+ zipcode_constraint_max
-			+ " characters long")
+			+ zipcode_constraint_min + " and " + zipcode_constraint_max + " characters long")
 	private String zipcode;
 
-	//private long country_id;
-	private long country;
+	private long countryID;
+	private Country country;
 
 	public City(String name, String zipcode) {
 		super();
@@ -71,7 +65,6 @@ public class City {
 	public void setId(long id) {
 		this.id = id;
 	}
-
 
 	/**
 	 * Getter for field name.
@@ -109,13 +102,12 @@ public class City {
 		this.zipcode = zipcode.toLowerCase();
 	}
 
-
 	/**
 	 * Getter for field country
 	 * 
 	 * @return Country
 	 */
-	public long getCountry() {
+	public Country getCountry() {
 		return country;
 	}
 
@@ -124,8 +116,16 @@ public class City {
 	 * 
 	 * @param country
 	 */
-	public void setCountry(long country) {
+	public void setCountry(Country country) {
 		this.country = country;
+	}
+
+	public long getCountryID() {
+		return countryID;
+	}
+
+	public void setCountryID(long country_id) {
+		this.countryID = country_id;
 	}
 
 }

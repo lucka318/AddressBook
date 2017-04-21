@@ -1,7 +1,9 @@
 package hr.fer.croz.app.dao;
 
+import hr.fer.croz.app.model.Sex;
+
 public interface GenderDAO {
 
-	public String getSex(Long id);
+	public Sex getSex(Long id);
 
 }
