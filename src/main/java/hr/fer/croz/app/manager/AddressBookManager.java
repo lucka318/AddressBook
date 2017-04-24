@@ -200,4 +200,15 @@ public class AddressBookManager {
 		return genders;
 	}
 
+	public AddressEntity prepareAddressEntity(long addressId) {
+		Address address = addressDAO.getAddress(addressId);
+		address.setCity(getCityObjectTree(address.getCityID()));
+
+		AddressEntity addressEntity = new AddressEntity();
+		addressEntity.setStreetName(address.getStreetName());
+		addressEntity.setStreetNo(address.getStreetNo());
+		addressEntity.setCityID(address.getCityID());
+		return addressEntity;
+	}
+
 }

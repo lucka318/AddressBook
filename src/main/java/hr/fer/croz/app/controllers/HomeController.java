@@ -115,6 +115,17 @@ public class HomeController {
 		return "ContactForm";
 	}
 
+	@RequestMapping(value = "/editAddress", method = RequestMethod.GET)
+	public String editAddress(HttpServletRequest request, Model model) {
+		long addressId = Long.parseLong(request.getParameter("id"));
+		List<City> cities = addressBookManager.fetchCities();
+		model.addAttribute("cities", cities);
+		AddressEntity addressEntity = addressBookManager.prepareAddressEntity(addressId);
+		model.addAttribute("addressEntity", addressEntity);
+
+		return "AddressForm";
+	}
+
 	/**
 	 * If user enters invalid URL, redirects it to the main page.
 	 * 

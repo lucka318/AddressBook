@@ -51,13 +51,15 @@ public class AddressFormController {
 
 	// isprobaj razliciti redoslijed parametara
 	@RequestMapping(value = "/saveEditAddress", method = RequestMethod.POST)
-	public String saveEditAddress(@Valid @ModelAttribute AddressEntity addressEntity, BindingResult result,
-			Model model) {
+	public String saveEditAddress(@Valid @ModelAttribute AddressEntity addressEntity, HttpServletRequest request,
+			BindingResult result, Model model) {
 		String view = "";
 		if (result.hasErrors()) {
 			model.addAllAttributes(result.getModel());
 			view = "AddressForm";
 		} else {
+			long cityID = Long.parseLong(request.getParameter("cities"));
+			addressEntity.setCityID(cityID); // radi li se ovo ovdje??
 			addressBookManager.saveUpdateToDatabase(addressEntity);
 			view = "redirect:/";
 		}

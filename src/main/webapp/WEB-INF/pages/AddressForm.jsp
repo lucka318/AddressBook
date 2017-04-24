@@ -1,6 +1,6 @@
 <%@page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
 	"http://www.w3.org/TR/html4/loose.dtd">
@@ -17,7 +17,7 @@
 			<table>
 				<tr>
 					<td>Street Name:</td>
-					<td><form:input path="streetName" /></td>
+					<td><form:input value="${streetName}" path="streetName" /></td>
 					<td><form:errors path="streetName" /></td>
 				</tr>
 				<tr>
@@ -29,9 +29,19 @@
 					<td>Choose city:</td>
 					<td><select name="cities">
 							<c:forEach items="${cities}" var="city">
-								<option value="${city.id}">${city.name}, ${city.country.name}</option>
+								<c:choose>
+									<c:when test="${city.id == addressEntity.cityID}">
+										<option value="${city.id}" selected>${city.name},
+											${city.country.name}</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${city.id}">${city.name},
+											${city.country.name}</option>
+									</c:otherwise>
+								</c:choose>
 							</c:forEach>
 					</select></td>
+
 				</tr>
 				<tr>
 					<td colspan="2" align="center"><input type="submit"
