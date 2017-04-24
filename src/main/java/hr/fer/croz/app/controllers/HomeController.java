@@ -6,6 +6,7 @@ import hr.fer.croz.app.model.AddressEntity;
 import hr.fer.croz.app.model.City;
 import hr.fer.croz.app.model.Contact;
 import hr.fer.croz.app.model.ContactEntity;
+import hr.fer.croz.app.model.Sex;
 
 import java.io.IOException;
 import java.util.List;
@@ -58,6 +59,10 @@ public class HomeController {
 	@RequestMapping(value = "/newContact", method = RequestMethod.GET)
 	public String newContact(Model model) {
 		ContactEntity contactEntity = new ContactEntity();
+		List<Address> addresses = addressBookManager.fetchAddresses();
+		List<Sex> genders = addressBookManager.fetchGenders();
+		model.addAttribute("addresses", addresses);
+		model.addAttribute("genders", genders);
 		model.addAttribute("contactEntity", contactEntity);
 		return "ContactForm";
 	}

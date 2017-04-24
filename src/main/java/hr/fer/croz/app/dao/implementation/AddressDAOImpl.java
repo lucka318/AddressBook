@@ -23,7 +23,7 @@ public class AddressDAOImpl implements AddressDAO {
 
 	public Address createTuple(Address address) {
 		String sql = "INSERT INTO address (street, street_no, city_id)" + " VALUES (?, ?, ?)";
-		jdbcTemplate.update(sql, address.getStreetName(), address.getStreetNo(), address.getCity());
+		jdbcTemplate.update(sql, address.getStreetName(), address.getStreetNo(), address.getCityID());
 
 		sql = "SELECT last_value FROM address_id_seq";
 		long id = jdbcTemplate.queryForObject(sql, Long.class);
@@ -59,8 +59,8 @@ public class AddressDAOImpl implements AddressDAO {
 	}
 
 	public Address getAddress(String name, String no, long city_id) {
-		String sql = "SELECT * FROM address WHERE street='" + name + "'" + " AND street_no='" + no + " AND city_id="
-				+ city_id + "'";
+		String sql = "SELECT * FROM address WHERE street='" + name + "'" + " AND street_no='" + no + "' AND city_id="
+				+ city_id;
 		return jdbcTemplate.query(sql, new ResultSetExtractor<Address>() {
 
 			public Address extractData(ResultSet rs) throws SQLException, DataAccessException {

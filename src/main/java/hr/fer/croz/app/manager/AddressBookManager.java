@@ -44,7 +44,6 @@ public class AddressBookManager {
 
 	private Sex getSexObjectTree(long sexID) {
 		Sex sex = genderDAO.getSex(sexID);
-
 		return sex;
 	}
 
@@ -149,15 +148,13 @@ public class AddressBookManager {
 		contactEntity.setLastName(contact.getLastName());
 		contactEntity.setEmail(contact.getEmail());
 		contactEntity.setPhone(contact.getPhone());
-		contactEntity.setGenderID(contact.getSexID());
+		contactEntity.setGender(contact.getSexID());
 		contactEntity.setAddressID(contact.getAddressID());
 		return contactEntity;
 	}
 
 	public void saveNewToDatabase(AddressEntity addressEntity) {
-
 		Address address = extractAddress(addressEntity);
-
 		saveToDatabaseNewAddress(address);
 
 	}
@@ -180,10 +177,10 @@ public class AddressBookManager {
 		Contact contact = new Contact();
 		contact.setFirstName(contactEntity.getFirstName());
 		contact.setLastName(contactEntity.getLastName());
-		contact.setEmail(contactEntity.getEmail());
+		contact.setPhone(contactEntity.getPhone());
 		contact.setAddressID(contactEntity.getAddressID());
 		contact.setEmail(contactEntity.getEmail());
-		contact.setSexID(contactEntity.getGenderID());
+		contact.setSexID(contactEntity.getGender());
 		return contact;
 	}
 
@@ -196,6 +193,11 @@ public class AddressBookManager {
 	public void saveUpdateToDatabase(ContactEntity contactEntity) {
 		Contact contact = extractContact(contactEntity);
 		saveToDatabaseUpdateContact(contact);
+	}
+
+	public List<Sex> fetchGenders() {
+		List<Sex> genders = genderDAO.getSexes();
+		return genders;
 	}
 
 }

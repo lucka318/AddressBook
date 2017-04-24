@@ -6,7 +6,7 @@ public class ContactEntity {
 	private String lastName;
 	private String phone;
 	private String email;
-	private long genderID;
+	private long gender;
 	private long addressID;
 
 	public ContactEntity() {
@@ -44,12 +44,12 @@ public class ContactEntity {
 		this.email = email;
 	}
 
-	public long getGenderID() {
-		return genderID;
+	public long getGender() {
+		return gender;
 	}
 
-	public void setGenderID(long genderID) {
-		this.genderID = genderID;
+	public void setGender(long gender) {
+		this.gender = gender;
 	}
 
 	public long getAddressID() {

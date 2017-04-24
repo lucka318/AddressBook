@@ -72,7 +72,7 @@ public class Country {
 	 * @param name
 	 */
 	public void setName(String name) {
-		this.name = name.toLowerCase();
+		this.name = name;
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class Country {
 	 * @param alpha_2
 	 */
 	public void setAlpha_2(String alpha_2) {
-		this.alpha_2 = alpha_2.toLowerCase();
+		this.alpha_2 = alpha_2;
 	}
 
 	/**
@@ -107,8 +107,8 @@ public class Country {
 	 * 
 	 * @param aplha_3
 	 */
-	public void setAlpha_3(String aplha_3) {
-		this.alpha_3 = aplha_3.toLowerCase();
+	public void setAlpha_3(String alpha_3) {
+		this.alpha_3 = alpha_3;
 	}
 
 }

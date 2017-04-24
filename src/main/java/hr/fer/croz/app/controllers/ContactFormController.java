@@ -1,5 +1,6 @@
 package hr.fer.croz.app.controllers;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +31,18 @@ public class ContactFormController {
 	 */
 	// isprobaj razliciti redoslijed parametara
 	@RequestMapping(value = "/saveContact", method = RequestMethod.POST)
-	public String saveContact(@Valid @ModelAttribute ContactEntity contactEntity, BindingResult result, Model model) {
+	public String saveContact(@Valid @ModelAttribute ContactEntity contactEntity, HttpServletRequest request,
+			BindingResult result, Model model) {
 		String view = "";
 
 		if (result.hasErrors()) {
 			model.addAllAttributes(result.getModel());
 			view = "ContactForm";
 		} else {
+			long addressID = Long.parseLong(request.getParameter("addresses"));
+			contactEntity.setAddressID(addressID); // radi li se ovo ovdje??
+			long genderID = Long.parseLong(request.getParameter("genders"));
+			contactEntity.setGender(genderID);
 			addressBookManager.saveNewToDatabase(contactEntity);
 			view = "redirect:/";
 		}

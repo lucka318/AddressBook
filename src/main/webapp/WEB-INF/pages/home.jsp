@@ -40,7 +40,7 @@
 					<td>${contact.address.streetNo}</td>
 					<td>${contact.address.city.name}</td>
 					<td>${contact.address.city.country.name}</td>
-					<td>${contact.sex}</td>
+					<td>${contact.sex.name}</td>
 					<td><a href="editContact?id=${contact.id}">Edit</a>
 						&nbsp;&nbsp;&nbsp;&nbsp; <a href="deleteContact?id=${contact.id}">Delete</a>
 					</td>

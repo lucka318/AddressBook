@@ -81,7 +81,7 @@ public class City {
 	 * @param name
 	 */
 	public void setName(String name) {
-		this.name = name.toLowerCase();
+		this.name = name;
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class City {
 	 * @param zipcode
 	 */
 	public void setZipcode(String zipcode) {
-		this.zipcode = zipcode.toLowerCase();
+		this.zipcode = zipcode;
 	}
 
 	/**

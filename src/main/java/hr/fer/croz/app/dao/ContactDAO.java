@@ -19,7 +19,8 @@ public interface ContactDAO {
 
 	public Contact getContact(Long id);
 
-	public Contact getContact(String firstName, String lastName, String phone, String email, long sex_id);
+	public Contact getContact(String firstName, String lastName, String phone, String email, long sex_id,
+			long address_id);
 
 	public List<Contact> getContacts();
 

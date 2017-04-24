@@ -57,9 +57,11 @@ public class ContactDAOImpl implements ContactDAO {
 		});
 	}
 
-	public Contact getContact(String firstName, String lastName, String phone, String email, long sex_id) {
-		String sql = "SELECT * FROM contact WHERE first_name=" + firstName + " AND last_name=" + lastName
-				+ " AND phone=" + phone + " AND email=" + email + " AND sex_id=" + sex_id;
+	public Contact getContact(String firstName, String lastName, String phone, String email, long sex_id,
+			long address_id) {
+		String sql = "SELECT * FROM contact WHERE first_name='" + firstName + "' AND last_name='" + lastName
+				+ "' AND phone='" + phone + "' AND email='" + email + "' AND sex_id=" + sex_id + " AND address_id="
+				+ address_id;
 		return jdbcTemplate.query(sql, new ResultSetExtractor<Contact>() {
 
 			public Contact extractData(ResultSet rs) throws SQLException, DataAccessException {
@@ -107,7 +109,7 @@ public class ContactDAOImpl implements ContactDAO {
 		String sql = "INSERT INTO contact (first_name, last_name, phone, email, sex_id, address_id)"
 				+ " VALUES (?, ?, ?, ?, ?, ?)";
 		jdbcTemplate.update(sql, contact.getFirstName(), contact.getLastName(), contact.getPhone(), contact.getEmail(),
-				contact.getSex(), contact.getAddress());
+				contact.getSexID(), contact.getAddressID());
 
 		sql = "SELECT last_value FROM contact_id_seq";
 		long id = jdbcTemplate.queryForObject(sql, Long.class);
@@ -131,7 +133,7 @@ public class ContactDAOImpl implements ContactDAO {
 
 	public boolean contactExists(Contact contact) {
 		Contact contactToCheck = getContact(contact.getFirstName(), contact.getLastName(), contact.getPhone(),
-				contact.getEmail(), contact.getSexID()); // napraviti metodu
+				contact.getEmail(), contact.getSexID(), contact.getAddressID()); // napraviti metodu
 															// koja
 		// dohvaca cijeli kontakt
 		if (contactToCheck == null) {

@@ -1,5 +1,6 @@
 package hr.fer.croz.app.controllers;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +34,15 @@ public class AddressFormController {
 	 */
 	// isprobaj razliciti redoslijed parametara
 	@RequestMapping(value = "/saveAddress", method = RequestMethod.POST)
-	public String saveAddress(@Valid @ModelAttribute AddressEntity addressEntity, BindingResult result, Model model) {
+	public String saveAddress(@Valid @ModelAttribute AddressEntity addressEntity, HttpServletRequest request,
+			BindingResult result, Model model) {
 		String view = "";
 		if (result.hasErrors()) {
 			model.addAllAttributes(result.getModel());
 			view = "AddressForm";
 		} else {
+			long cityID = Long.parseLong(request.getParameter("cities"));
+			addressEntity.setCityID(cityID); // radi li se ovo ovdje??
 			addressBookManager.saveNewToDatabase(addressEntity);
 			view = "redirect:/";
 		}

@@ -11,7 +11,6 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 
 import hr.fer.croz.app.dao.CountryDAO;
-import hr.fer.croz.app.model.City;
 import hr.fer.croz.app.model.Country;
 
 public class CountryDAOImpl implements CountryDAO {
@@ -77,24 +76,6 @@ public class CountryDAOImpl implements CountryDAO {
 			}
 
 		});
-	}
-
-	public List<City> getCities() {
-		String sql = "SELECT * FROM city";
-		List<City> cities = jdbcTemplate.query(sql, new RowMapper<City>() {
-
-			public City mapRow(ResultSet rs, int rowNum) throws SQLException {
-				City city = new City();
-				city.setId(rs.getLong("id"));
-				city.setName(rs.getString("name"));
-				city.setZipcode(rs.getString("zip_code"));
-				city.setCountryID(rs.getLong("country_id"));
-				return city;
-			}
-
-		});
-
-		return cities;
 	}
 
 	public List<Country> getCountries() {
