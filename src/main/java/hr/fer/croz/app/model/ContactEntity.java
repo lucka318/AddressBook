@@ -2,6 +2,7 @@ package hr.fer.croz.app.model;
 
 public class ContactEntity {
 
+	private long id;
 	private String firstName;
 	private String lastName;
 	private String phone;
@@ -10,6 +11,14 @@ public class ContactEntity {
 	private long addressID;
 
 	public ContactEntity() {
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getFirstName() {

@@ -11,8 +11,8 @@
 </head>
 <body>
 	<div align="center">
-		<h1>New Address</h1>
-		<form:form action="saveAddress" method="post"
+		<h1>Edit Address</h1>
+		<form:form action="saveEditAddress" method="post"
 			modelAttribute="addressEntity">
 			<table>
 				<tr>
@@ -29,8 +29,16 @@
 					<td>Choose city:</td>
 					<td><select name="cities">
 							<c:forEach items="${cities}" var="city">
-									<option value="${city.id}">${city.name},
-										${city.country.name}</option>
+								<c:choose>
+									<c:when test="${city.id == addressEntity.cityID}">
+										<option value="${city.id}" selected>${city.name},
+											${city.country.name}</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${city.id}">${city.name},
+											${city.country.name}</option>
+									</c:otherwise>
+								</c:choose>
 							</c:forEach>
 					</select></td>
 				</tr>

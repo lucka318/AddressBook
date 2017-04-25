@@ -1,6 +1,7 @@
 package hr.fer.croz.app.controllers;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,8 +57,12 @@ public class AddressFormController {
 		String view = "";
 		if (result.hasErrors()) {
 			model.addAllAttributes(result.getModel());
-			view = "AddressForm";
+			view = "AddressEditForm";
 		} else {
+			HttpSession session = request.getSession();
+			long addressId = (Long) session.getAttribute("addressId");
+			addressEntity.setId(addressId);
+			session.removeAttribute("addressId");
 			long cityID = Long.parseLong(request.getParameter("cities"));
 			addressEntity.setCityID(cityID); // radi li se ovo ovdje??
 			addressBookManager.saveUpdateToDatabase(addressEntity);

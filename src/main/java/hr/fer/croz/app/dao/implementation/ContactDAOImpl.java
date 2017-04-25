@@ -122,7 +122,7 @@ public class ContactDAOImpl implements ContactDAO {
 		String sql = "UPDATE contact SET first_name=?, last_name=?, phone=?, email=?, sex_id=?, address_id=?"
 				+ " WHERE id=?";
 		jdbcTemplate.update(sql, contact.getFirstName(), contact.getLastName(), contact.getPhone(), contact.getEmail(),
-				contact.getSex(), contact.getAddress(), contact.getId());
+				contact.getSexID(), contact.getAddressID(), contact.getId());
 		return contact;
 	}
 

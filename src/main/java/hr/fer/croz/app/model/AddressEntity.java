@@ -2,12 +2,25 @@ package hr.fer.croz.app.model;
 
 public class AddressEntity {
 	
+	private long id;
 	private String streetName;
 	private String streetNo;
 	private long cityID;
 	
 	public AddressEntity() {
 	}
+
+	public long getId() {
+		return id;
+	}
+
+
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+
 
 	public String getStreetName() {
 		return streetName;

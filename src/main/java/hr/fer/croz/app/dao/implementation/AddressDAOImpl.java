@@ -34,7 +34,7 @@ public class AddressDAOImpl implements AddressDAO {
 
 	public Address updateTuple(Address address) {
 		String sql = "UPDATE address SET street=?, street_no=?, city_id=?" + " WHERE id=?";
-		jdbcTemplate.update(sql, address.getStreetName(), address.getStreetNo(), address.getCity(), address.getId());
+		jdbcTemplate.update(sql, address.getStreetName(), address.getStreetNo(), address.getCityID(), address.getId());
 		return address;
 	}
 

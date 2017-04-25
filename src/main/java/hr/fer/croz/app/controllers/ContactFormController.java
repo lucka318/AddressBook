@@ -1,6 +1,7 @@
 package hr.fer.croz.app.controllers;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,14 +51,21 @@ public class ContactFormController {
 	}
 
 	@RequestMapping(value = "/saveEditContact", method = RequestMethod.POST)
-	public String saveEditContact(@Valid @ModelAttribute ContactEntity contactEntity, BindingResult result,
-			Model model) {
+	public String saveEditContact(@Valid @ModelAttribute ContactEntity contactEntity, HttpServletRequest request,
+			BindingResult result, Model model) {
 		String view = "";
 
 		if (result.hasErrors()) {
 			model.addAllAttributes(result.getModel());
-			view = "ContactForm";
+			view = "ContactEditForm";
 		} else {
+			HttpSession session = request.getSession();
+			long contactId = (Long) session.getAttribute("contactId");
+			contactEntity.setId(contactId);
+			long addressId = Long.parseLong(request.getParameter("addresses"));
+			contactEntity.setAddressID(addressId);
+			long gender = Long.parseLong(request.getParameter("genders"));
+			contactEntity.setGender(gender);
 			addressBookManager.saveUpdateToDatabase(contactEntity);
 			view = "redirect:/";
 		}

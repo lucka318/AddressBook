@@ -11,8 +11,8 @@
 </head>
 <body>
 	<div align="center">
-		<h1>New Contact</h1>
-		<form:form action="saveContact" method="post"
+		<h1>New/Edit Contact</h1>
+		<form:form action="saveEditContact" method="post"
 			modelAttribute="contactEntity">
 			<table>
 				<tr>
@@ -39,7 +39,14 @@
 					<td>Gender:</td>
 					<td><select name="genders">
 							<c:forEach items="${genders}" var="gender">
-								<option value="${gender.id}">${gender.name}</option>
+								<c:choose>
+									<c:when test="${gender.id == contactEntity.gender}">
+										<option value="${gender.id}" selected>${gender.name}</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${gender.id}">${gender.name}</option>
+									</c:otherwise>
+								</c:choose>
 							</c:forEach>
 					</select></td>
 				</tr>
@@ -47,11 +54,21 @@
 					<td>Address:</td>
 					<td><select name="addresses">
 							<c:forEach items="${addresses}" var="address">
-								<option value="${address.id}">${address.streetName}
-									${address.streetNo}, ${address.city.name},
-									${address.city.country.name}</option>
+								<c:choose>
+									<c:when test="${address.id == contactEntity.addressID}">
+										<option value="${address.id}" selected>${address.streetName}
+											${address.streetNo}, ${address.city.name},
+											${address.city.country.name}</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${address.id}">${address.streetName}
+											${address.streetNo}, ${address.city.name},
+											${address.city.country.name}</option>
+									</c:otherwise>
+								</c:choose>
 							</c:forEach>
 					</select></td>
+				</tr>
 				<tr>
 
 					<td colspan="2" align="center"><input type="submit"

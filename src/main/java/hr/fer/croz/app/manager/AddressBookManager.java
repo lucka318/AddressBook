@@ -161,6 +161,7 @@ public class AddressBookManager {
 
 	private Address extractAddress(AddressEntity addressEntity) {
 		Address address = new Address();
+		address.setId(addressEntity.getId());
 		address.setStreetName(addressEntity.getStreetName());
 		address.setStreetNo(addressEntity.getStreetNo());
 		address.setCityID(addressEntity.getCityID());
@@ -175,6 +176,7 @@ public class AddressBookManager {
 
 	private Contact extractContact(ContactEntity contactEntity) {
 		Contact contact = new Contact();
+		contact.setId(contactEntity.getId());
 		contact.setFirstName(contactEntity.getFirstName());
 		contact.setLastName(contactEntity.getLastName());
 		contact.setPhone(contactEntity.getPhone());
@@ -205,6 +207,7 @@ public class AddressBookManager {
 		address.setCity(getCityObjectTree(address.getCityID()));
 
 		AddressEntity addressEntity = new AddressEntity();
+		addressEntity.setId(address.getId());
 		addressEntity.setStreetName(address.getStreetName());
 		addressEntity.setStreetNo(address.getStreetNo());
 		addressEntity.setCityID(address.getCityID());

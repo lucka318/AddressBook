@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -108,22 +109,31 @@ public class HomeController {
 	@RequestMapping(value = "/editContact", method = RequestMethod.GET)
 	public String editContact(HttpServletRequest request, Model model) {
 		long contactId = Long.parseLong(request.getParameter("id"));
+		HttpSession session = request.getSession();
+		session.setAttribute("contactId", contactId);
+		ContactEntity contactEntity = addressBookManager.prepareContactEntity(contactId);
+		model.addAttribute("contactEntity", contactEntity);
+		
+		List<Address> addresses = addressBookManager.fetchAddresses();
+		model.addAttribute("addresses", addresses);
+		List<Sex> genders = addressBookManager.fetchGenders();
+		model.addAttribute("genders", genders);
 
-		ContactEntity addressBookEntity = addressBookManager.prepareContactEntity(contactId);
-		model.addAttribute("addressBookEntity", addressBookEntity);
-
-		return "ContactForm";
+		return "ContactEditForm";
 	}
 
 	@RequestMapping(value = "/editAddress", method = RequestMethod.GET)
 	public String editAddress(HttpServletRequest request, Model model) {
 		long addressId = Long.parseLong(request.getParameter("id"));
+		HttpSession session = request.getSession();
+		session.setAttribute("addressId", addressId);
+
 		List<City> cities = addressBookManager.fetchCities();
 		model.addAttribute("cities", cities);
 		AddressEntity addressEntity = addressBookManager.prepareAddressEntity(addressId);
 		model.addAttribute("addressEntity", addressEntity);
 
-		return "AddressForm";
+		return "AddressEditForm";
 	}
 
 	/**
