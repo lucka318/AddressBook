@@ -1,5 +1,7 @@
 package hr.fer.croz.app.controllers;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -15,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import hr.fer.croz.app.manager.AddressBookManager;
 import hr.fer.croz.app.model.AddressEntity;
+import hr.fer.croz.app.model.City;
 
 @Controller
 public class AddressFormController {
@@ -35,16 +38,19 @@ public class AddressFormController {
 	 */
 	// isprobaj razliciti redoslijed parametara
 	@RequestMapping(value = "/saveAddress", method = RequestMethod.POST)
-	public String saveAddress(@Valid @ModelAttribute AddressEntity addressEntity, HttpServletRequest request,
-			BindingResult result, Model model) {
+	public String saveAddress(@Valid @ModelAttribute AddressEntity addressEntity, BindingResult result, Model model,
+			HttpServletRequest request) {
 		String view = "";
 		if (result.hasErrors()) {
 			model.addAllAttributes(result.getModel());
+			List<City> cities = addressBookManager.fetchCities();
+			model.addAttribute("cities", cities);
 			view = "AddressForm";
 		} else {
 			long cityID = Long.parseLong(request.getParameter("cities"));
 			addressEntity.setCityID(cityID); // radi li se ovo ovdje??
-			addressBookManager.saveNewToDatabase(addressEntity);
+			String error = addressBookManager.saveNewToDatabase(addressEntity);
+			request.getSession().setAttribute("error", error);
 			view = "redirect:/";
 		}
 		return view;
@@ -52,11 +58,13 @@ public class AddressFormController {
 
 	// isprobaj razliciti redoslijed parametara
 	@RequestMapping(value = "/saveEditAddress", method = RequestMethod.POST)
-	public String saveEditAddress(@Valid @ModelAttribute AddressEntity addressEntity, HttpServletRequest request,
-			BindingResult result, Model model) {
+	public String saveEditAddress(@Valid @ModelAttribute AddressEntity addressEntity, BindingResult result, Model model,
+			HttpServletRequest request) {
 		String view = "";
 		if (result.hasErrors()) {
 			model.addAllAttributes(result.getModel());
+			List<City> cities = addressBookManager.fetchCities();
+			model.addAttribute("cities", cities);
 			view = "AddressEditForm";
 		} else {
 			HttpSession session = request.getSession();
@@ -65,7 +73,8 @@ public class AddressFormController {
 			session.removeAttribute("addressId");
 			long cityID = Long.parseLong(request.getParameter("cities"));
 			addressEntity.setCityID(cityID); // radi li se ovo ovdje??
-			addressBookManager.saveUpdateToDatabase(addressEntity);
+			String error = addressBookManager.saveUpdateToDatabase(addressEntity);
+			request.getSession().setAttribute("error", error);
 			view = "redirect:/";
 		}
 		return view;

@@ -87,40 +87,56 @@ public class AddressBookManager {
 		return country;
 	}
 
-	private void saveToDatabaseNewContact(Contact contact) {
+	private String saveToDatabaseNewContact(Contact contact) {
+		String error = "";
 		if (contact != null) {
 			boolean check = contactDAO.contactExists(contact);
 			if (!check) {
 				contact = contactDAO.createTuple(contact);
+			} else {
+				error = "Contact already exists in database";
 			}
 		}
+		return error;
 	}
 
-	private void saveToDatabaseNewAddress(Address address) {
+	private String saveToDatabaseNewAddress(Address address) {
+		String error = "";
 		if (address != null) {
 			boolean check = addressDAO.addressExists(address);
 			if (!check) {
 				address = addressDAO.createTuple(address);
+			} else {
+				error = "Address is already in database.";
 			}
 		}
+		return error;
 	}
 
-	private void saveToDatabaseUpdateContact(Contact contact) {
+	private String saveToDatabaseUpdateContact(Contact contact) {
+		String error = "";
 		if (contact != null) {
 			boolean check = contactDAO.contactExists(contact);
 			if (!check) {
 				contact = contactDAO.updateTuple(contact);
+			} else {
+				error = "Contact already exists in database";
 			}
 		}
+		return error;
 	}
 
-	private void saveToDatabaseUpdateAddress(Address address) {
+	private String saveToDatabaseUpdateAddress(Address address) {
+		String error = "";
 		if (address != null) {
 			boolean check = addressDAO.addressExists(address);
 			if (!check) {
 				address = addressDAO.updateTuple(address);
+			} else {
+				error = "Address is already in database.";
 			}
 		}
+		return error;
 	}
 
 	public void deleteContactFromDatabase(long contactId) {
@@ -134,8 +150,8 @@ public class AddressBookManager {
 			return "";
 		} else {
 			Address address = addressDAO.getAddress(addressId);
-			return "There exists at least one contact that has " + address.getStreetName() + " "
-					+ address.getStreetName() + "as an address";
+			return "There exists at least one contact that has " + address.getStreetName() + " " + address.getStreetNo()
+					+ "as an address. Address cannot be deleted.";
 		}
 	}
 
@@ -153,9 +169,10 @@ public class AddressBookManager {
 		return contactEntity;
 	}
 
-	public void saveNewToDatabase(AddressEntity addressEntity) {
+	public String saveNewToDatabase(AddressEntity addressEntity) {
 		Address address = extractAddress(addressEntity);
-		saveToDatabaseNewAddress(address);
+		String error = saveToDatabaseNewAddress(address);
+		return error;
 
 	}
 
@@ -168,9 +185,10 @@ public class AddressBookManager {
 		return address;
 	}
 
-	public void saveNewToDatabase(ContactEntity contactEntity) {
+	public String saveNewToDatabase(ContactEntity contactEntity) {
 		Contact contact = extractContact(contactEntity);
-		saveToDatabaseNewContact(contact);
+		String error = saveToDatabaseNewContact(contact);
+		return error;
 
 	}
 
@@ -186,15 +204,17 @@ public class AddressBookManager {
 		return contact;
 	}
 
-	public void saveUpdateToDatabase(AddressEntity addressEntity) {
+	public String saveUpdateToDatabase(AddressEntity addressEntity) {
 		Address address = extractAddress(addressEntity);
-		saveToDatabaseUpdateAddress(address);
+		String error = saveToDatabaseUpdateAddress(address);
+		return error;
 
 	}
 
-	public void saveUpdateToDatabase(ContactEntity contactEntity) {
+	public String saveUpdateToDatabase(ContactEntity contactEntity) {
 		Contact contact = extractContact(contactEntity);
-		saveToDatabaseUpdateContact(contact);
+		String error = saveToDatabaseUpdateContact(contact);
+		return error;
 	}
 
 	public List<Sex> fetchGenders() {

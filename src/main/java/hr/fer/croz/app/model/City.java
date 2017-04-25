@@ -1,9 +1,5 @@
 package hr.fer.croz.app.model;
 
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.NotEmpty;
-
 /**
  * Class City represents entity City in database. City has g attributes:
  * <code>id</code>, <code>name</code>, <code>zipcode</code>,
@@ -16,21 +12,8 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class City {
 
-	private final static int name_constraint_min = 2;
-	private final static int name_constraint_max = 50;
-	private final static int zipcode_constraint_min = 4;
-	private final static int zipcode_constraint_max = 10;
-
 	private long id;
-
-	@NotEmpty(message = "Please provide city name")
-	@Size(min = name_constraint_min, max = name_constraint_max, message = "Name has to be between "
-			+ name_constraint_min + " and " + name_constraint_max + " characters long")
 	private String name;
-
-	@NotEmpty(message = "Please provide zipcode")
-	@Size(min = zipcode_constraint_min, max = zipcode_constraint_max, message = "Zipcode size has to be between "
-			+ zipcode_constraint_min + " and " + zipcode_constraint_max + " characters long")
 	private String zipcode;
 
 	private long countryID;

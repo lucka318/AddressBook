@@ -14,6 +14,7 @@
 		<h3>
 			<a href="newContact">New Contact</a>
 		</h3>
+		<h3><span>${error}</span></h3>
 		<table border="1">
 			<tr>
 				<th>No</th>

@@ -1,11 +1,36 @@
 package hr.fer.croz.app.model;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class ContactEntity {
 
+	private final static int firstName_constraint = 20;
+	private final static int lastName_constraint = 50;
+	private final static int phone_constraint = 13;
+	private final static int email_constraint = 50;
+
 	private long id;
+
+	@NotEmpty(message = "Please provide a first name.")
+	@Size(max = firstName_constraint, message = "Name cannot be longer than " + firstName_constraint + " characters.")
 	private String firstName;
+
+	@NotEmpty(message = "Please provide a last name.")
+	@Size(max = lastName_constraint, message = "Name cannot be longer than " + lastName_constraint + " characters.")
 	private String lastName;
+
+	@NotEmpty(message = "Please provide a phone number.")
+	@Size(max = phone_constraint, message = "Phone cannot be longer than " + phone_constraint + " characters.")
+	@Pattern(regexp = "^[0-9, ]+$", message = "Not a valid phone number.")
 	private String phone;
+
+	@NotEmpty(message = "Please enter email addresss.")
+	@Size(max = email_constraint, message = "Phone cannot be longer than " + email_constraint + " characters.")
+	@Email
 	private String email;
 	private long gender;
 	private long addressID;

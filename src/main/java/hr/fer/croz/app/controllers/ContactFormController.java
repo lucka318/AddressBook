@@ -1,5 +1,7 @@
 package hr.fer.croz.app.controllers;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -14,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import hr.fer.croz.app.manager.AddressBookManager;
+import hr.fer.croz.app.model.Address;
 import hr.fer.croz.app.model.ContactEntity;
+import hr.fer.croz.app.model.Sex;
 
 @Controller
 public class ContactFormController {
@@ -32,27 +36,32 @@ public class ContactFormController {
 	 */
 	// isprobaj razliciti redoslijed parametara
 	@RequestMapping(value = "/saveContact", method = RequestMethod.POST)
-	public String saveContact(@Valid @ModelAttribute ContactEntity contactEntity, HttpServletRequest request,
-			BindingResult result, Model model) {
+	public String saveContact(@Valid @ModelAttribute ContactEntity contactEntity, BindingResult result, Model model,
+			HttpServletRequest request) {
 		String view = "";
 
 		if (result.hasErrors()) {
 			model.addAllAttributes(result.getModel());
+			List<Address> addresses = addressBookManager.fetchAddresses();
+			List<Sex> genders = addressBookManager.fetchGenders();
+			model.addAttribute("addresses", addresses);
+			model.addAttribute("genders", genders);
 			view = "ContactForm";
 		} else {
 			long addressID = Long.parseLong(request.getParameter("addresses"));
 			contactEntity.setAddressID(addressID); // radi li se ovo ovdje??
 			long genderID = Long.parseLong(request.getParameter("genders"));
 			contactEntity.setGender(genderID);
-			addressBookManager.saveNewToDatabase(contactEntity);
+			String error = addressBookManager.saveNewToDatabase(contactEntity);
+			request.getSession().setAttribute("error", error);
 			view = "redirect:/";
 		}
 		return view;
 	}
 
 	@RequestMapping(value = "/saveEditContact", method = RequestMethod.POST)
-	public String saveEditContact(@Valid @ModelAttribute ContactEntity contactEntity, HttpServletRequest request,
-			BindingResult result, Model model) {
+	public String saveEditContact(@Valid @ModelAttribute ContactEntity contactEntity, BindingResult result, Model model,
+			HttpServletRequest request) {
 		String view = "";
 
 		if (result.hasErrors()) {
@@ -66,7 +75,8 @@ public class ContactFormController {
 			contactEntity.setAddressID(addressId);
 			long gender = Long.parseLong(request.getParameter("genders"));
 			contactEntity.setGender(gender);
-			addressBookManager.saveUpdateToDatabase(contactEntity);
+			String error = addressBookManager.saveUpdateToDatabase(contactEntity);
+			request.getSession().setAttribute("error", error);
 			view = "redirect:/";
 		}
 		return view;

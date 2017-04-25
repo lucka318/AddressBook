@@ -1,9 +1,5 @@
 package hr.fer.croz.app.model;
 
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.NotEmpty;
-
 /**
  * Class Country represents entity Country in database. City has attributes:
  * <code>id</code>, <code>name</code>, <code>alpha_2</code>,
@@ -15,22 +11,9 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class Country {
 
-	private final static int name_constraint = 50;
-	private final static int alpha_2_constraint = 2;
-	private final static int alpha_3_constraint = 3;
-
 	private long id;
-
-	@NotEmpty(message = "Please provide a country name.")
-	@Size(max = name_constraint, message = "Size should be max 50 characters long.")
 	private String name;
-
-	@NotEmpty(message = "Please provide alpha_2 country code")
-	@Size(min = alpha_2_constraint, max = alpha_2_constraint, message = "Size should be 2 characters.")
 	private String alpha_2;
-
-	@NotEmpty(message = "Please provide alpha_3 country code")
-	@Size(min = alpha_3_constraint, max = alpha_3_constraint, message = "Size should be 3 characters.")
 	private String alpha_3;
 
 	/**

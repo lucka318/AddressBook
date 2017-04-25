@@ -1,11 +1,5 @@
 package hr.fer.croz.app.model;
 
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.format.annotation.NumberFormat;
-
 /**
  * Class Address represents entity Address in database. City has 5 attributes:
  * <code>id</code>, <code>street</code>, <code>street_no</code>,
@@ -18,23 +12,8 @@ import org.springframework.format.annotation.NumberFormat;
  */
 public class Address {
 
-	private final static int streetName_constraint_min = 3;
-	private final static int streetName_constraint_max = 50;
-	private final static int streetNo_constraint_min = 1;
-	private final static int streetNo_constraint_max = 5;
-
 	private long id;
-
-	@NotEmpty
-	@Pattern(regexp = "^[A-Za-z]*$")
-	@Size(min = streetName_constraint_min, max = streetName_constraint_max, message = "Name has to be between "
-			+ streetName_constraint_min + " and " + streetName_constraint_max + " characters long")
 	private String streetName;
-
-	@NotEmpty
-	@Size(min = streetNo_constraint_min, max = streetNo_constraint_max, message = "Number has to be between "
-			+ streetNo_constraint_min + " and " + streetNo_constraint_max + " characters long")
-	@NumberFormat
 	private String streetNo;
 
 	private long cityID;

@@ -43,11 +43,14 @@ public class HomeController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String listContact(Model model) throws IOException {
+	public String listContact(Model model, HttpServletRequest request) throws IOException {
 		List<Contact> contacts = addressBookManager.fetchContacts();
 		List<Address> addresses = addressBookManager.fetchAddresses();
+		String error = (String) request.getSession().getAttribute("error");
+		request.getSession().removeAttribute("error");
 		model.addAttribute("contacts", contacts);
 		model.addAttribute("addresses", addresses);
+		model.addAttribute("error", error);
 		return "home";
 	}
 
@@ -93,10 +96,12 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/deleteAddress", method = RequestMethod.GET)
-	public String deleteAddress(HttpServletRequest request) {
+	public String deleteAddress(Model model, HttpServletRequest request) {
 		long addressId = Long.parseLong(request.getParameter("id"));
 		// salji greske kao povratnu vrijednost
 		String error = addressBookManager.deleteAddressFromDatabase(addressId);
+		HttpSession session = request.getSession();
+		session.setAttribute("error", error);
 		return "redirect:/";
 	}
 
@@ -113,7 +118,7 @@ public class HomeController {
 		session.setAttribute("contactId", contactId);
 		ContactEntity contactEntity = addressBookManager.prepareContactEntity(contactId);
 		model.addAttribute("contactEntity", contactEntity);
-		
+
 		List<Address> addresses = addressBookManager.fetchAddresses();
 		model.addAttribute("addresses", addresses);
 		List<Sex> genders = addressBookManager.fetchGenders();
